@@ -8,16 +8,15 @@ import com.uha.tenich.view.MailController;
 import com.uha.tenich.view.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
@@ -39,6 +38,15 @@ public class App extends Application {
         this.model = new Model();
         model.populate();
 
+        for(Account ac: model.getAccounts()){
+            try {
+                ac.CheckMail();
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         initRootLayout();
         addAccountsLayout();
 
@@ -79,7 +87,7 @@ public class App extends Application {
 
                 this.rootController.getAccounts().getChildren().add(accountsController.getAccountRoot());
 
-                accountsController.setTitle(a.getMailProperty());
+                accountsController.setTitle(a.getUsername());
 
                 accountsController.getAccountRoot().prefHeightProperty().bind(this.rootController.getAccounts().heightProperty().subtract(20));
 

@@ -3,19 +3,13 @@ package com.uha.tenich.view;
 import com.uha.tenich.MailStage;
 import com.uha.tenich.model.Account;
 import com.uha.tenich.model.Mail;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
-import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -97,7 +91,7 @@ public class MailViewerController implements Initializable {
 
         this.subject.setText(mail.getSubject());
         this.from.setText(mail.getFrom());
-        this.to.setText(a.getMailProperty());
+        this.to.setText(a.getUsername());
         this.cc.setText("");
 
         this.content.getEngine().loadContent(mail.getContent());

@@ -30,9 +30,7 @@ public class Mail {
         IDs++;
     }
 
-    public void setMail(EMailController eMailController){
 
-    }
 
     public String getFrom() {
         return from.get();
