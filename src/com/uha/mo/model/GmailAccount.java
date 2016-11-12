@@ -1,8 +1,6 @@
 package com.uha.mo.model;
 
-/**
- * Created by Othman on 12/11/2016.
- */
+
 public class GmailAccount extends Account {
 
     public static final String SMTP_HOST = "smtp.gmail.com";
