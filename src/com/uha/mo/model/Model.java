@@ -3,6 +3,7 @@ package com.uha.mo.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Model {
@@ -15,7 +16,6 @@ public class Model {
 
     public void populate() {
         this.accounts.add(new GmailAccount("jeanmichelcrapaudensisa@gmail.com", "azerty12345!P"));
-        //this.accounts.add(new Account("othman.mo@uha.fr", "azerty"));
 
         for(Account account : this.accounts) {
             account.getMessages().add(new Message("a@b.com", account.getMailAddress(), "Ceci est un mail de test", "<h1>My First Heading</h1>\n" + "<p>My first paragraph.</p>\n", new Date()));

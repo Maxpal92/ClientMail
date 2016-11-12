@@ -1,12 +1,14 @@
 package com.uha.mo;
 
 import com.uha.mo.model.Account;
+import com.uha.mo.model.GmailAccount;
 import com.uha.mo.model.Message;
 import com.uha.mo.model.Model;
 import com.uha.mo.view.AccountController;
 import com.uha.mo.view.MailController;
 import com.uha.mo.view.MainController;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -20,6 +22,7 @@ import javafx.stage.StageStyle;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class App extends Application {
 
@@ -33,7 +36,20 @@ public class App extends Application {
 
         this.primaryStage = primaryStage;
         this.model = new Model();
-        model.populate();
+
+        /************** LOAD ACCOUNTS REGISTERED FROM THE XML FILE **************/
+        AccountLoader loader = new AccountLoader();
+        ArrayList<Account> accounts = loader.getAccounts();
+        this.model.getAccounts().addAll(accounts);
+
+        /************** CHECK OUT EMAILS FOR EACH ACCOUNT **************/
+        for(Account account : this.model.getAccounts()) {
+            if(account instanceof GmailAccount) {
+                //I've just learned something new here !!!!! instance of is magic :)
+                ArrayList<Message> messages = new GmailChecker(account).getMessages();
+                account.getMessages().addAll(messages);
+            }
+        }
 
         initRootLayout();
         addAccountsLayout();
