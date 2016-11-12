@@ -41,6 +41,7 @@ public class MainController implements Initializable {
 
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.prefHeightProperty().bind(fenetre.heightProperty());
+        scrollPane.setFitToHeight(true);
 
         menuBar.setOnMousePressed(event -> {
             xOffset = stage.getX() - event.getScreenX();
@@ -52,51 +53,25 @@ public class MainController implements Initializable {
             stage.setY(event.getScreenY() + yOffset);
         });
 
+        this.menuBar.setPrefWidth(this.fenetre.getWidth());
+
         /********************************* EXIT BUTTON *********************************/
 
-        exitButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                System.exit(0);
-            }
-        });
+        exitButton.setOnMouseClicked(event -> System.exit(0));
 
-        exitButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                exitButton.setImage(new Image("images/delete_hover.png"));
-            }
-        });
+        exitButton.setOnMouseEntered(event -> exitButton.setImage(new Image("images/delete_hover.png")));
 
-        exitButton.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                exitButton.setImage(new Image("images/delete.png"));
-            }
-        });
+        exitButton.setOnMouseExited(event -> exitButton.setImage(new Image("images/delete.png")));
 
         /********************************* SETTINGS BUTTON *********************************/
 
-        settingsButton.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                //TODO
-            }
+        settingsButton.setOnMouseClicked(event -> {
+            //TODO
         });
 
-        settingsButton.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                settingsButton.setImage(new Image("images/settings_hover.png"));
-            }
-        });
+        settingsButton.setOnMouseEntered(event -> settingsButton.setImage(new Image("images/settings_hover.png")));
 
-        settingsButton.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent event) {
-                settingsButton.setImage(new Image("images/settings.png"));
-            }
-        });
+        settingsButton.setOnMouseExited(event -> settingsButton.setImage(new Image("images/settings.png")));
     }
 
     public void setStage(Stage stage) {
@@ -105,10 +80,6 @@ public class MainController implements Initializable {
 
     public HBox getAccounts() {
         return this.accounts;
-    }
-
-    public ToolBar getToolbar() {
-        return this.menuBar;
     }
 
     public ScrollPane getScrollPane() {

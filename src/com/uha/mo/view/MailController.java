@@ -12,9 +12,7 @@ import javafx.scene.layout.VBox;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * Created by othman on 29/10/2016.
- */
+
 public class MailController implements Initializable {
 
     @FXML

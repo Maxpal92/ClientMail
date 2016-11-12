@@ -1,7 +1,9 @@
 package com.uha.mo.view;
 
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
@@ -10,9 +12,8 @@ import javafx.scene.layout.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/**
- * Created by othman on 29/10/2016.
- */
+
+
 public class AccountController implements Initializable {
 
     @FXML
@@ -20,9 +21,6 @@ public class AccountController implements Initializable {
 
     @FXML
     private ScrollPane scroll;
-
-    @FXML
-    private ToolBar toolbar;
 
     @FXML
     private VBox mailsContainer;
@@ -41,19 +39,15 @@ public class AccountController implements Initializable {
         return this.accountRoot;
     }
 
-    public ScrollPane getScroll() {
-        return this.scroll;
-    }
-
-    public ToolBar getToolbar() {
-        return toolbar;
-    }
-
     public VBox getMailsContainer() {
         return mailsContainer;
     }
 
-    public void setTitle(String mailProperty) {
-        this.mail.setText(mailProperty);
+    public void setTitle(StringProperty mailAddressProperty) {
+        this.mail.textProperty().bind(mailAddressProperty);
+    }
+
+    public void setParent(HBox accounts) {
+        this.accountRoot.prefHeightProperty().bind(accounts.heightProperty().subtract(20));
     }
 }

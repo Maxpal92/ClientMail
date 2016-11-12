@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -27,10 +28,6 @@ public class App extends Application {
 
     private Model model;
 
-    public MainController getRootController() {
-        return this.rootController;
-    }
-
     @Override
     public void start(Stage primaryStage) {
 
@@ -38,20 +35,10 @@ public class App extends Application {
         this.model = new Model();
         model.populate();
 
-        for(Account ac: model.getAccounts()){
-            try {
-                ac.CheckMail();
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
         initRootLayout();
         addAccountsLayout();
 
         this.primaryStage.show();
-
     }
 
     private void initRootLayout() {
@@ -87,34 +74,40 @@ public class App extends Application {
 
                 this.rootController.getAccounts().getChildren().add(accountsController.getAccountRoot());
 
-                accountsController.setTitle(a.getUsername());
-
-                accountsController.getAccountRoot().prefHeightProperty().bind(this.rootController.getAccounts().heightProperty().subtract(20));
+                accountsController.setTitle(a.mailAddressProperty());
+                accountsController.setParent(this.rootController.getAccounts());
 
                 if(a.getMessages().size() == 0) {
                     FXMLLoader emptyLoader = new FXMLLoader(getClass().getResource("view/nomessage.fxml"));
+                    Label label = emptyLoader.load();
+                    accountsController.getMailsContainer().getChildren().add(label);
+
+                    label.prefWidthProperty().bind(accountsController.getMailsContainer().widthProperty());
+                    label.setPrefHeight(100);
                 }
+                else {
+                    for(Message m : a.getMessages()) {
 
-                for(Message m : a.getMessages()) {
+                        FXMLLoader mailLoader = new FXMLLoader(getClass().getResource("view/mail.fxml"));
+                        VBox mailRoot = mailLoader.load();
+                        MailController mailController = mailLoader.getController();
 
-                    FXMLLoader mailLoader = new FXMLLoader(getClass().getResource("view/mail.fxml"));
-                    VBox mailRoot = mailLoader.load();
-                    MailController mailController = mailLoader.getController();
-                    mailController.setAccount(a);
-                    mailController.setApp(this);
-                    accountsController.getMailsContainer().getChildren().add(mailRoot);
+                        //////////////////////////////////////
+                        mailController.setAccount(a);
+                        mailController.setApp(this);
+                        /////////////////////////////////////
 
-                    mailController.getFrom().setText(m.getFrom());
-                    mailController.getDate().setText(new SimpleDateFormat("dd MMM - HH:mm:ss").format(m.getDate()));
-                    mailController.getSubject().setText(m.getSubject());
-                    mailController.setID(m.getID());
+                        accountsController.getMailsContainer().getChildren().add(mailRoot);
 
-                    mailRoot.prefWidthProperty().bind(accountsController.getAccountRoot().widthProperty().subtract(20));
+                        mailController.getFrom().setText(m.getFrom());
+                        mailController.getDate().setText(new SimpleDateFormat("dd MMM - HH:mm:ss").format(m.getDate()));
+                        mailController.getSubject().setText(m.getSubject());
+                        mailController.setID(m.getID());
+
+                        mailRoot.prefWidthProperty().bind(accountsController.getAccountRoot().widthProperty().subtract(20));
+                    }
                 }
             }
-
-            this.rootController.getToolbar().setPrefWidth(this.rootController.getRoot().getWidth());
-            this.rootController.getScrollPane().setFitToHeight(true);
 
             if(model.getAccounts().size() > 2) {
                 this.rootController.getScrollPane().setPrefWidth(640*2 + 10 + 2*10);

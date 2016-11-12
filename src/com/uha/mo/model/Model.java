@@ -9,8 +9,12 @@ public class Model {
 
     private ObservableList<Account> accounts = FXCollections.observableArrayList();
 
+    public ObservableList<Account> getAccounts() {
+        return accounts;
+    }
+
     public void populate() {
-        this.accounts.add(new Account("jeanmichelcrapaudensisa@gmail.com", "azerty12345!P"));
+        this.accounts.add(new GmailAccount("jeanmichelcrapaudensisa@gmail.com", "azerty12345!P"));
         //this.accounts.add(new Account("othman.mo@uha.fr", "azerty"));
 
         for(Account account : this.accounts) {
@@ -18,9 +22,5 @@ public class Model {
             account.getMessages().add(new Message("c@d.com", "Ceci est un mail de test", "<h1>My First Heading</h1>\n" + "<p>My first paragraph.</p>\n", new Date()));
             account.getMessages().add(new Message("e@f.com", "Ceci est un mail de test", "<h1>My First Heading</h1>\n" + "<p>My first paragraph.</p>\n", new Date()));
         }
-    }
-
-    public ObservableList<Account> getAccounts() {
-        return accounts;
     }
 }
