@@ -11,7 +11,7 @@
 
        <ToolBar fx:id="toolbar" prefHeight="45.0" prefWidth="460.0" style="-fx-background-color: linear-gradient(to top, #3498db, #2980b9);">
            <items>
-               <Label fx:id="mail" prefHeight="21.0" prefWidth="430.0" text="Label" />
+               <Label fx:id="message" prefHeight="21.0" prefWidth="430.0" text="Label" />
            </items>
        </ToolBar>
 

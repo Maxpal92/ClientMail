@@ -1,7 +1,7 @@
 package com.uha.mo;
 
 import com.uha.mo.model.Account;
-import com.uha.mo.model.Mail;
+import com.uha.mo.model.Message;
 import com.uha.mo.view.MailController;
 import com.uha.mo.view.MailViewerController;
 import javafx.fxml.FXMLLoader;
@@ -17,12 +17,12 @@ import java.io.IOException;
 
 public class MailStage extends Stage {
 
-    private Mail mail;
+    private Message message;
     private Account account;
     private MailController controller;
 
-    public MailStage(Mail mail, Account account, MailController controller) {
-        this.mail = mail;
+    public MailStage(Message message, Account account, MailController controller) {
+        this.message = message;
         this.account = account;
         this.controller = controller;
 
@@ -36,7 +36,7 @@ public class MailStage extends Stage {
 
             MailViewerController controller = loader.getController();
             controller.setStage(this);
-            controller.setMail(this.mail, this.account);
+            controller.setMail(this.message, this.account);
 
             Group group = new Group(root);
             group.setEffect(new DropShadow());

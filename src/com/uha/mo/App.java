@@ -1,7 +1,7 @@
 package com.uha.mo;
 
 import com.uha.mo.model.Account;
-import com.uha.mo.model.Mail;
+import com.uha.mo.model.Message;
 import com.uha.mo.model.Model;
 import com.uha.mo.view.AccountController;
 import com.uha.mo.view.MailController;
@@ -91,11 +91,11 @@ public class App extends Application {
 
                 accountsController.getAccountRoot().prefHeightProperty().bind(this.rootController.getAccounts().heightProperty().subtract(20));
 
-                if(a.getMails().size() == 0) {
+                if(a.getMessages().size() == 0) {
                     FXMLLoader emptyLoader = new FXMLLoader(getClass().getResource("view/nomessage.fxml"));
                 }
 
-                for(Mail m : a.getMails()) {
+                for(Message m : a.getMessages()) {
 
                     FXMLLoader mailLoader = new FXMLLoader(getClass().getResource("view/mail.fxml"));
                     VBox mailRoot = mailLoader.load();
@@ -130,7 +130,7 @@ public class App extends Application {
     }
 
     public void notifyEnd(Account account, long id) {
-        account.getMails().remove(account.getMailById(id));
+        account.getMessages().remove(account.getMailById(id));
         this.rootController.getAccounts().getChildren().clear();
         addAccountsLayout();
     }

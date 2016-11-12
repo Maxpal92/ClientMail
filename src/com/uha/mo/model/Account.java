@@ -9,7 +9,7 @@ public abstract class Account {
 
     private StringProperty mailAddress = new SimpleStringProperty();
     private StringProperty password = new SimpleStringProperty();
-    private ObservableList<Mail> mails = FXCollections.observableArrayList();
+    private ObservableList<Message> messages = FXCollections.observableArrayList();
 
     public String getMailAddress() { return mailAddress.get(); }
     public StringProperty mailAddressProperty() { return mailAddress; }
@@ -19,10 +19,10 @@ public abstract class Account {
     public StringProperty passwordProperty() { return password; }
     public void setPassword(String password) { this.password.set(password); }
 
-    public ObservableList<Mail> getMails() { return mails; }
+    public ObservableList<Message> getMessages() { return messages; }
 
-    public Mail getMailById(long id) {
-        for(Mail m : mails) {
+    public Message getMailById(long id) {
+        for(Message m : messages) {
             if(m.getID() == id) return m;
         }
         return null;

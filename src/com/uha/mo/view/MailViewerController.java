@@ -2,7 +2,7 @@ package com.uha.mo.view;
 
 import com.uha.mo.MailStage;
 import com.uha.mo.model.Account;
-import com.uha.mo.model.Mail;
+import com.uha.mo.model.Message;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -87,14 +87,14 @@ public class MailViewerController implements Initializable {
         this.stage = stage;
     }
 
-    public void setMail(Mail mail, Account a) {
+    public void setMail(Message message, Account a) {
 
-        this.subject.setText(mail.getSubject());
-        this.from.setText(mail.getFrom());
+        this.subject.setText(message.getSubject());
+        this.from.setText(message.getFrom());
         this.to.setText(a.getUsername());
         this.cc.setText("");
 
-        this.content.getEngine().loadContent(mail.getContent());
+        this.content.getEngine().loadContent(message.getContent());
     }
 }
 
