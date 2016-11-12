@@ -42,23 +42,16 @@ public class MailController implements Initializable {
         });
 
         root.setOnMouseClicked(event -> {
-            MailStage s = new MailStage(account.getMailById(this.id), account, this);
-            s.show();
+            new MailStage(account.getMailById(this.id), this);
         });
-    }
-
-    public VBox getRoot() {
-        return root;
     }
 
     public Label getFrom() {
         return from;
     }
-
     public Label getDate() {
         return date;
     }
-
     public Label getSubject() {
         return subject;
     }
@@ -67,15 +60,15 @@ public class MailController implements Initializable {
         this.id = id;
     }
 
-    public void setAccount(Account account) {
+    public void setAccountParent(Account account) {
         this.account = account;
     }
 
-    public void setApp(App app) {
-        this.main = app;
+    public void setMain(App main) {
+        this.main = main;
     }
 
     public void notifyEnd() {
-        main.notifyEnd(account, id);
+        main.notifyEnd(id);
     }
 }

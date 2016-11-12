@@ -13,14 +13,16 @@ public class Message {
     private StringProperty from;
     private StringProperty subject;
     private StringProperty content;
+    private StringProperty to;
     private ObjectProperty<Date> date;
 
     private long id;
 
     private static long ID = 0l;
 
-    public Message(String from, String subject, String content, Date date) {
+    public Message(String from, String to, String subject, String content, Date date) {
         this.from = new SimpleStringProperty(from);
+        this.to = new SimpleStringProperty(to);
         this.content = new SimpleStringProperty(content);
         this.subject = new SimpleStringProperty(subject);
         this.date = new SimpleObjectProperty<>(date);
@@ -71,5 +73,9 @@ public class Message {
 
     public long getID() {
         return this.id;
+    }
+
+    public String getTo() {
+        return this.to.get();
     }
 }

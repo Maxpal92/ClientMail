@@ -1,6 +1,5 @@
 package com.uha.mo;
 
-import com.uha.mo.model.Account;
 import com.uha.mo.model.Message;
 import com.uha.mo.view.MailController;
 import com.uha.mo.view.MailViewerController;
@@ -18,15 +17,15 @@ import java.io.IOException;
 public class MailStage extends Stage {
 
     private Message message;
-    private Account account;
-    private MailController controller;
+    private MailController creatorController;
 
-    public MailStage(Message message, Account account, MailController controller) {
+    public MailStage(Message message, MailController creatorController) {
         this.message = message;
-        this.account = account;
-        this.controller = controller;
+        this.creatorController = creatorController;
 
         initRootLayout();
+
+        this.show();
     }
 
     private void initRootLayout() {
@@ -36,7 +35,8 @@ public class MailStage extends Stage {
 
             MailViewerController controller = loader.getController();
             controller.setStage(this);
-            controller.setMail(this.message, this.account);
+            controller.setMailController(this.creatorController);
+            controller.setMail(message);
 
             Group group = new Group(root);
             group.setEffect(new DropShadow());
@@ -50,9 +50,5 @@ public class MailStage extends Stage {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void notifyEnd() {
-        this.controller.notifyEnd();
     }
 }

@@ -10,6 +10,7 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,7 +43,10 @@ public class MailViewerController implements Initializable {
     private double xOffset;
     private double yOffset;
 
-    private double x;
+    private MailController mailController;
+
+    public MailViewerController() {
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,7 +64,7 @@ public class MailViewerController implements Initializable {
         /********************************* EXIT BUTTON *********************************/
 
         exitButton.setOnMouseClicked(event -> {
-            stage.notifyEnd();
+            mailController.notifyEnd();
             stage.close();
         });
 
@@ -87,13 +91,16 @@ public class MailViewerController implements Initializable {
         this.stage = stage;
     }
 
-    public void setMail(Message message, Account a) {
+    public void setMailController(MailController mailController) {
+        this.mailController = mailController;
+    }
+
+    public void setMail(Message message) {
 
         this.subject.setText(message.getSubject());
         this.from.setText(message.getFrom());
-        this.to.setText(a.getMailAddress());
+        this.to.setText(message.getTo());
         this.cc.setText("");
-
         this.content.getEngine().loadContent(message.getContent());
     }
 }

@@ -92,10 +92,8 @@ public class App extends Application {
                         VBox mailRoot = mailLoader.load();
                         MailController mailController = mailLoader.getController();
 
-                        //////////////////////////////////////
-                        mailController.setAccount(a);
-                        mailController.setApp(this);
-                        /////////////////////////////////////
+                        mailController.setAccountParent(a);
+                        mailController.setMain(this);
 
                         accountsController.getMailsContainer().getChildren().add(mailRoot);
 
@@ -122,8 +120,10 @@ public class App extends Application {
         launch(args);
     }
 
-    public void notifyEnd(Account account, long id) {
-        account.getMessages().remove(account.getMailById(id));
+    public void notifyEnd(long id) {
+        for(Account account : this.model.getAccounts()) {
+            account.getMessages().remove(account.getMailById(id));
+        }
         this.rootController.getAccounts().getChildren().clear();
         addAccountsLayout();
     }
