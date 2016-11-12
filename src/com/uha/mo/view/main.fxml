@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="fenetre" maxHeight="720.0" prefHeight="720.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uha.tenich.view.MainController">
+<VBox fx:id="fenetre" maxHeight="720.0" prefHeight="720.0" xmlns="http://javafx.com/javafx/8.0.112-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uha.mo.view.MainController">
     <children>
         <ToolBar fx:id="menuBar" nodeOrientation="RIGHT_TO_LEFT" prefWidth="0.0">
             <items>

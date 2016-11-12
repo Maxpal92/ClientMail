@@ -1,4 +1,4 @@
-package com.uha.tenich.model;
+package com.uha.mo.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

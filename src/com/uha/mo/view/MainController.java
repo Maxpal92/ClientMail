@@ -1,4 +1,4 @@
-package com.uha.tenich.view;
+package com.uha.mo.view;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

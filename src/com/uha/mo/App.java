@@ -1,11 +1,11 @@
-package com.uha.tenich;
+package com.uha.mo;
 
-import com.uha.tenich.model.Account;
-import com.uha.tenich.model.Mail;
-import com.uha.tenich.model.Model;
-import com.uha.tenich.view.AccountController;
-import com.uha.tenich.view.MailController;
-import com.uha.tenich.view.MainController;
+import com.uha.mo.model.Account;
+import com.uha.mo.model.Mail;
+import com.uha.mo.model.Model;
+import com.uha.mo.view.AccountController;
+import com.uha.mo.view.MailController;
+import com.uha.mo.view.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;

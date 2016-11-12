@@ -1,8 +1,8 @@
-package com.uha.tenich.view;
+package com.uha.mo.view;
 
-import com.uha.tenich.MailStage;
-import com.uha.tenich.model.Account;
-import com.uha.tenich.model.Mail;
+import com.uha.mo.MailStage;
+import com.uha.mo.model.Account;
+import com.uha.mo.model.Mail;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
