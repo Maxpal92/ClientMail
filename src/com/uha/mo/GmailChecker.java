@@ -5,11 +5,9 @@ import com.uha.mo.model.GmailAccount;
 import com.uha.mo.model.Message;
 
 import javax.mail.*;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Properties;
-import java.util.regex.Pattern;
 
 
 public class GmailChecker {

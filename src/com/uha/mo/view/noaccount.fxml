@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="853.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.66" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uha.mo.view.NoAccountController">
+   <children>
+       <ToolBar fx:id="menuBar" nodeOrientation="RIGHT_TO_LEFT" prefWidth="0.0">
+           <items>
+               <HBox>
+                   <children>
+                       <StackPane>
+                           <children>
+                               <ImageView fx:id="exitButton" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                   <image>
+                                       <Image url="@../../../../images/delete.png" />
+                                   </image>
+                               </ImageView>
+                           </children>
+                           <padding>
+                               <Insets right="10.0" />
+                           </padding>
+                       </StackPane>
+                   </children>
+               </HBox>
+           </items>
+
+           <padding>
+               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+           </padding>
+       </ToolBar>
+
+      <HBox alignment="CENTER" prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: white;">
+         <children>
+            <Label alignment="CENTER" style="-fx-background-color: white;" text="Configurer un compte" HBox.hgrow="ALWAYS">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets top="50.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
+
+      <HBox alignment="CENTER" fillHeight="false" prefHeight="100.0" prefWidth="200.0" spacing="50.0" VBox.vgrow="ALWAYS">
+          <children>
+              <VBox fx:id="gmail" alignment="CENTER" fillWidth="false" prefHeight="150.0" prefWidth="150.0" spacing="20.0" HBox.hgrow="NEVER">
+                  <children>
+                      <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../../../../images/gmail.png" />
+                          </image>
+                     <VBox.margin>
+                        <Insets bottom="11.0" top="11.0" />
+                     </VBox.margin>
+                      </ImageView>
+                      <Label alignment="CENTER" text="Gmail" VBox.vgrow="ALWAYS">
+                          <font>
+                              <Font size="18.0" />
+                          </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                      </Label>
+                  </children>
+              </VBox>
+              <VBox fx:id="yahoo" alignment="CENTER" fillWidth="false" prefHeight="150.0" prefWidth="150.0" spacing="20.0" HBox.hgrow="NEVER">
+                  <children>
+                      <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../../../../images/yahoo.png" />
+                          </image>
+                      </ImageView>
+                      <Label text="Yahoo mail">
+                          <font>
+                              <Font size="18.0" />
+                          </font>
+                      </Label>
+                  </children>
+              </VBox>
+              <VBox fx:id="custom" alignment="CENTER" fillWidth="false" prefHeight="150.0" prefWidth="150.0" spacing="20.0" HBox.hgrow="NEVER">
+                  <children>
+                      <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                          <image>
+                              <Image url="@../../../../images/custom.png" />
+                          </image>
+                      </ImageView>
+                      <Label text="Personnalisé">
+                          <font>
+                              <Font size="18.0" />
+                          </font>
+                      </Label>
+                  </children>
+              </VBox>
+          </children>
+      </HBox>
+   </children>
+</VBox>

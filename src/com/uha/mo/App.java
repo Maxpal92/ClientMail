@@ -7,6 +7,7 @@ import com.uha.mo.model.Model;
 import com.uha.mo.view.AccountController;
 import com.uha.mo.view.MailController;
 import com.uha.mo.view.MainController;
+import com.uha.mo.view.NoAccountController;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
@@ -40,20 +41,48 @@ public class App extends Application {
         /************** LOAD ACCOUNTS REGISTERED FROM THE XML FILE **************/
         AccountLoader loader = new AccountLoader();
         ArrayList<Account> accounts = loader.getAccounts();
-        this.model.getAccounts().addAll(accounts);
 
-        /************** CHECK OUT EMAILS FOR EACH ACCOUNT **************/
-        for(Account account : this.model.getAccounts()) {
-            if(account instanceof GmailAccount) {
-                ArrayList<Message> messages = new GmailChecker(account).getMessages();
-                account.getMessages().addAll(messages);
+        if(accounts.size() == 0) {
+            initNoAccountLayout();
+        }
+        else {
+            this.model.getAccounts().addAll(accounts);
+
+            /************** CHECK OUT EMAILS FOR EACH ACCOUNT **************/
+            for(Account account : this.model.getAccounts()) {
+                if(account instanceof GmailAccount) {
+                    ArrayList<Message> messages = new GmailChecker(account).getMessages();
+                    account.getMessages().addAll(messages);
+                }
             }
+
+            initRootLayout();
+            addAccountsLayout();
         }
 
-        initRootLayout();
-        addAccountsLayout();
-
         this.primaryStage.show();
+    }
+
+    private void initNoAccountLayout() {
+        try {
+            FXMLLoader noAccountLoader = new FXMLLoader(getClass().getResource("view/noaccount.fxml"));
+            VBox root = noAccountLoader.load();
+
+            NoAccountController noAccountController = noAccountLoader.getController();
+            noAccountController.setStage(this.primaryStage);
+
+            Group noAccountGroup = new Group(root);
+            noAccountGroup.setEffect(new DropShadow());
+
+            Scene scene = new Scene(noAccountGroup);
+            scene.setFill(Color.TRANSPARENT);
+
+            this.primaryStage.initStyle(StageStyle.TRANSPARENT);
+            this.primaryStage.setScene(scene);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initRootLayout() {
