@@ -12,16 +12,16 @@
          <children>
             <Label text="De :">
                <font>
-                  <Font size="14.0" />
+                  <Font size="16.0" />
                </font></Label>
             <Label fx:id="from" text="">
                <font>
-                  <Font size="14.0" />
+                  <Font size="16.0" />
                </font></Label>
-            <HBox prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <HBox HBox.hgrow="ALWAYS" />
             <Label fx:id="date" text="">
                <font>
-                  <Font size="14.0" />
+                  <Font size="16.0" />
                </font></Label>
          </children>
          <padding>
@@ -32,7 +32,7 @@
          <children>
             <Label fx:id="subject" prefHeight="21.0" prefWidth="${mailSubjectContainer.width}" text="Label">
                <font>
-                  <Font size="14.0" />
+                  <Font size="16.0" />
                </font></Label>
          </children>
          <padding>
