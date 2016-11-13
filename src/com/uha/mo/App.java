@@ -45,7 +45,6 @@ public class App extends Application {
         /************** CHECK OUT EMAILS FOR EACH ACCOUNT **************/
         for(Account account : this.model.getAccounts()) {
             if(account instanceof GmailAccount) {
-                //I've just learned something new here !!!!! instance of is magic :)
                 ArrayList<Message> messages = new GmailChecker(account).getMessages();
                 account.getMessages().addAll(messages);
             }
