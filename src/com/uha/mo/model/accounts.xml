@@ -2,5 +2,6 @@
 
 <Accounts>
     <Account type="gmail" address="oteniche@gmail.com" password="azertyuiop123" />
-    <Account type="custom" address="toto@tutu.com" password="aaaaaaaaaaaaaaaaaaa" smtpHost="smtp.toto.com" smtpPort="999" imapHost="imap.toto.com" imapPort="111"/>
+    <Account type="gmail" address="jeanmichelcrapaudensisa@gmail.com" password="azerty12345!P" />
+    <Account type="yahoo" address="crapaud.j@yahoo.com" password="azerty12345!P" />
 </Accounts>

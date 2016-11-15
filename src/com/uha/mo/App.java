@@ -1,9 +1,6 @@
 package com.uha.mo;
 
-import com.uha.mo.model.Account;
-import com.uha.mo.model.GmailAccount;
-import com.uha.mo.model.Message;
-import com.uha.mo.model.Model;
+import com.uha.mo.model.*;
 import com.uha.mo.view.AccountController;
 import com.uha.mo.view.MailController;
 import com.uha.mo.view.MainController;
@@ -46,6 +43,17 @@ public class App extends Application {
         for(Account account : this.model.getAccounts()) {
             if(account instanceof GmailAccount) {
                 ArrayList<Message> messages = new GmailChecker(account).getMessages();
+                account.getMessages().addAll(messages);
+            }
+            if(account instanceof YahooAccount){
+                ArrayList<Message> messages = null;
+                try {
+                    messages = new YahooChecker(account).getMessages();
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 account.getMessages().addAll(messages);
             }
         }
