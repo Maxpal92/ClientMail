@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Accounts>
+<!-->
     <Account type="gmail" address="oteniche@gmail.com" password="azertyuiop123" />
     <Account type="custom" address="toto@tutu.com" password="aaaaaaaaaaaaaaaaaaa" smtpHost="smtp.toto.com" smtpPort="999" imapHost="imap.toto.com" imapPort="111"/>
+<-->
 </Accounts>

@@ -70,6 +70,7 @@ public class App extends Application {
 
             NoAccountController noAccountController = noAccountLoader.getController();
             noAccountController.setStage(this.primaryStage);
+            noAccountController.setApp(this);
 
             Group noAccountGroup = new Group(root);
             noAccountGroup.setEffect(new DropShadow());
@@ -170,5 +171,23 @@ public class App extends Application {
         }
         this.rootController.getAccounts().getChildren().clear();
         addAccountsLayout();
+    }
+
+    public void setScene(String sceneType) throws IOException {
+
+        switch (sceneType) {
+            case "gmail":
+                FXMLLoader newAccountLoader = new FXMLLoader(getClass().getResource("view/newAccount.fxml"));
+                VBox root = newAccountLoader.load();
+
+                Group noAccountGroup = new Group(root);
+                noAccountGroup.setEffect(new DropShadow());
+
+                Scene scene = new Scene(noAccountGroup);
+                scene.setFill(Color.TRANSPARENT);
+
+                this.primaryStage.setScene(scene);
+                break;
+        }
     }
 }
