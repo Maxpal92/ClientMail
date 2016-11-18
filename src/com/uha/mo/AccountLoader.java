@@ -4,6 +4,7 @@ package com.uha.mo;
 import com.uha.mo.model.Account;
 import com.uha.mo.model.CustomAccount;
 import com.uha.mo.model.GmailAccount;
+import com.uha.mo.model.YahooAccount;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -35,6 +36,9 @@ public class AccountLoader {
                     switch (type) {
                         case "gmail":
                             this.accounts.add(new GmailAccount(address, password));
+                            break;
+                        case "yahoo":
+                            this.accounts.add(new YahooAccount(address, password));
                             break;
                         case "custom":
                             CustomAccount customAccount = new CustomAccount(address, password);
