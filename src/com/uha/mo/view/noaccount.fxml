@@ -58,9 +58,9 @@
                           <image>
                               <Image url="@../../../../images/gmail.png" />
                           </image>
-                     <VBox.margin>
-                        <Insets bottom="11.0" top="11.0" />
-                     </VBox.margin>
+                          <VBox.margin>
+                              <Insets bottom="11.0" top="11.0" />
+                          </VBox.margin>
                       </ImageView>
                       <Label alignment="CENTER" text="Gmail" VBox.vgrow="ALWAYS">
                           <font>

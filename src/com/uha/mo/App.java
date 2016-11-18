@@ -4,12 +4,8 @@ import com.uha.mo.model.Account;
 import com.uha.mo.model.GmailAccount;
 import com.uha.mo.model.Message;
 import com.uha.mo.model.Model;
-import com.uha.mo.view.AccountController;
-import com.uha.mo.view.MailController;
-import com.uha.mo.view.MainController;
-import com.uha.mo.view.NoAccountController;
+import com.uha.mo.view.*;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -20,7 +16,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +26,7 @@ public class App extends Application {
     private MainController rootController;
 
     private Model model;
+    private ArrayList<Account> accounts;
 
     @Override
     public void start(Stage primaryStage) {
@@ -40,26 +36,11 @@ public class App extends Application {
 
         /************** LOAD ACCOUNTS REGISTERED FROM THE XML FILE **************/
         AccountLoader loader = new AccountLoader();
-        ArrayList<Account> accounts = loader.getAccounts();
+        this.accounts = loader.getAccounts();
 
-        if(accounts.size() == 0) {
-            initNoAccountLayout();
-        }
-        else {
-            this.model.getAccounts().addAll(accounts);
+        initRootLayout();
 
-            /************** CHECK OUT EMAILS FOR EACH ACCOUNT **************/
-            for(Account account : this.model.getAccounts()) {
-                if(account instanceof GmailAccount) {
-                    ArrayList<Message> messages = new GmailChecker(account).getMessages();
-                    account.getMessages().addAll(messages);
-                }
-            }
-
-            initRootLayout();
-            addAccountsLayout();
-        }
-
+        this.primaryStage.initStyle(StageStyle.TRANSPARENT);
         this.primaryStage.show();
     }
 
@@ -78,7 +59,6 @@ public class App extends Application {
             Scene scene = new Scene(noAccountGroup);
             scene.setFill(Color.TRANSPARENT);
 
-            this.primaryStage.initStyle(StageStyle.TRANSPARENT);
             this.primaryStage.setScene(scene);
 
         } catch (IOException e) {
@@ -86,22 +66,39 @@ public class App extends Application {
         }
     }
 
-    private void initRootLayout() {
+    public void initRootLayout() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("view/main.fxml"));
-            loader.load();
+            if(accounts.size() == 0) {
+                initNoAccountLayout();
+            }
+            else {
+                this.model.getAccounts().addAll(accounts);
 
-            this.rootController = loader.getController();
-            this.rootController.setStage(this.primaryStage);
+                /************** CHECK OUT EMAILS FOR EACH ACCOUNT **************/
+                for (Account account : this.model.getAccounts()) {
+                    if (account instanceof GmailAccount) {
+                        ArrayList<Message> messages = new GmailChecker(account).getMessages();
+                        account.getMessages().addAll(messages);
+                    }
+                }
 
-            Group group = new Group(this.rootController.getRoot());
-            group.setEffect(new DropShadow());
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("view/main.fxml"));
+                loader.load();
 
-            Scene scene = new Scene(group);
-            scene.setFill(Color.TRANSPARENT);
+                this.rootController = loader.getController();
+                this.rootController.setStage(this.primaryStage);
 
-            this.primaryStage.initStyle(StageStyle.TRANSPARENT);
-            this.primaryStage.setScene(scene);
+                Group group = new Group(this.rootController.getRoot());
+                group.setEffect(new DropShadow());
+
+                Scene scene = new Scene(group);
+                scene.setFill(Color.TRANSPARENT);
+
+                this.primaryStage.initStyle(StageStyle.TRANSPARENT);
+                this.primaryStage.setScene(scene);
+
+                addAccountsLayout();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -177,16 +174,33 @@ public class App extends Application {
 
         switch (sceneType) {
             case "gmail":
-                FXMLLoader newAccountLoader = new FXMLLoader(getClass().getResource("view/newAccount.fxml"));
-                VBox root = newAccountLoader.load();
+                FXMLLoader newGmailAccountLoader = new FXMLLoader(getClass().getResource("view/newGmailAccount.fxml"));
+                VBox gmailroot = newGmailAccountLoader.load();
+                ((NewGmailAccountController) newGmailAccountLoader.getController()).setStage(this.primaryStage);
+                ((NewGmailAccountController) newGmailAccountLoader.getController()).setApp(this);
 
-                Group noAccountGroup = new Group(root);
-                noAccountGroup.setEffect(new DropShadow());
+                Group newAccountGroup = new Group(gmailroot);
+                newAccountGroup.setEffect(new DropShadow());
 
-                Scene scene = new Scene(noAccountGroup);
+                Scene scene = new Scene(newAccountGroup);
                 scene.setFill(Color.TRANSPARENT);
 
                 this.primaryStage.setScene(scene);
+                break;
+
+            case "yahoo":
+                FXMLLoader newYahooAccountLoader = new FXMLLoader(getClass().getResource("view/newYahooAccount.fxml"));
+                VBox yahooroot = newYahooAccountLoader.load();
+                ((NewYahooAccountController) newYahooAccountLoader.getController()).setStage(this.primaryStage);
+                ((NewYahooAccountController) newYahooAccountLoader.getController()).setApp(this);
+
+                Group newAccountGroup1 = new Group(yahooroot);
+                newAccountGroup1.setEffect(new DropShadow());
+
+                Scene scene2 = new Scene(newAccountGroup1);
+                scene2.setFill(Color.TRANSPARENT);
+
+                this.primaryStage.setScene(scene2);
                 break;
         }
     }

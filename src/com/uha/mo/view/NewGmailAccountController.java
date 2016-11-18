@@ -1,14 +1,12 @@
 package com.uha.mo.view;
 
 import com.uha.mo.App;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -16,18 +14,16 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class NoAccountController implements Initializable{
+public class NewGmailAccountController implements Initializable {
 
     @FXML
     private ToolBar menuBar;
     @FXML
     private ImageView exitButton;
     @FXML
-    private VBox gmail;
+    private ImageView backButton;
     @FXML
-    private VBox yahoo;
-    @FXML
-    private VBox custom;
+    private HBox menuBarContainer;
 
     private Stage stage;
     private App app;
@@ -36,6 +32,8 @@ public class NoAccountController implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        this.menuBarContainer.prefWidthProperty().bind(this.menuBar.widthProperty().subtract(20));
 
         menuBar.setOnMousePressed(event -> {
             xOffset = stage.getX() - event.getScreenX();
@@ -52,28 +50,14 @@ public class NoAccountController implements Initializable{
         exitButton.setOnMouseEntered(event -> exitButton.setImage(new Image("images/delete_hover.png")));
         exitButton.setOnMouseExited(event -> exitButton.setImage(new Image("images/delete.png")));
 
-        gmail.setOnMouseEntered(event -> gmail.setStyle("-fx-background-color: #bdc3c7;"));
-        gmail.setOnMouseExited(event -> gmail.setStyle("-fx-background-color: white;"));
-        gmail.setOnMouseClicked(event -> {
-            try {
-                app.setScene("gmail");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        /********************************* BACK BUTTON *********************************/
+        backButton.setOnMouseClicked(event -> {
+            app.initRootLayout();
         });
+        backButton.setOnMouseEntered(event -> backButton.setImage(new Image("images/back_hover.png")));
+        backButton.setOnMouseExited(event -> backButton.setImage(new Image("images/back.png")));
 
-        yahoo.setOnMouseEntered(event -> yahoo.setStyle("-fx-background-color: #bdc3c7;"));
-        yahoo.setOnMouseExited(event -> yahoo.setStyle("-fx-background-color: white;"));
-        yahoo.setOnMouseClicked(event -> {
-            try {
-                app.setScene("yahoo");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
 
-        custom.setOnMouseEntered(event -> custom.setStyle("-fx-background-color: #bdc3c7;"));
-        custom.setOnMouseExited(event -> custom.setStyle("-fx-background-color: white;"));
     }
 
     public void setStage(Stage stage) {
