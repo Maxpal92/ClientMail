@@ -208,6 +208,21 @@ public class App extends Application {
 
                 this.primaryStage.setScene(scene2);
                 break;
+
+            case "custom":
+                FXMLLoader newCustomAccountLoader = new FXMLLoader(getClass().getResource("view/newCustomAccount.fxml"));
+                VBox customroot = newCustomAccountLoader.load();
+                ((NewCustomAccountController) newCustomAccountLoader.getController()).setStage(this.primaryStage);
+                ((NewCustomAccountController) newCustomAccountLoader.getController()).setApp(this);
+
+                Group newAccountGroup2 = new Group(customroot);
+                newAccountGroup2.setEffect(new DropShadow());
+
+                Scene scene3 = new Scene(newAccountGroup2);
+                scene3.setFill(Color.TRANSPARENT);
+
+                this.primaryStage.setScene(scene3);
+                break;
         }
     }
 }

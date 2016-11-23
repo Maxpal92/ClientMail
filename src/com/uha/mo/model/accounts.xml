@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Accounts>
+    <!-->
     <Account type="gmail" address="oteniche@gmail.com" password="azertyuiop123" />
     <Account type="gmail" address="jeanmichelcrapaudensisa@gmail.com" password="azerty12345!P" />
     <Account type="yahoo" address="crapaud.j@yahoo.com" password="azerty12345!P" />
+    <-->
 </Accounts>
