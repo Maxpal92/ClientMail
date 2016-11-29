@@ -71,4 +71,11 @@ public class MailController implements Initializable {
     public void notifyEnd() {
         main.notifyEnd(id);
     }
+
+    public Account getAccount(){
+        return this.account;
+    }
+
 }
+
+

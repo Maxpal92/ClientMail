@@ -86,6 +86,14 @@ public class App extends Application {
                         ArrayList<Message> messages = new GmailChecker(account).getMessages();
                         account.getMessages().addAll(messages);
                     }
+                    if (account instanceof YahooAccount) {
+                        try {
+                            ArrayList<Message> messages = new YahooChecker(account).getMessages();
+                            account.getMessages().addAll(messages);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("view/main.fxml"));

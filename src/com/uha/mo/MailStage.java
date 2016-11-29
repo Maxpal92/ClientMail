@@ -37,6 +37,7 @@ public class MailStage extends Stage {
             controller.setStage(this);
             controller.setMailController(this.creatorController);
             controller.setMail(message);
+            controller.setAccount(creatorController.getAccount());
 
             Group group = new Group(root);
             group.setEffect(new DropShadow());
