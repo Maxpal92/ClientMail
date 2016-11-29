@@ -1,6 +1,8 @@
 package com.uha.mo.view;
 
 import com.uha.mo.App;
+import com.uha.mo.model.GmailAccount;
+import com.uha.mo.utils.AsyncTask;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
@@ -9,17 +11,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+import javax.mail.Folder;
+import javax.mail.Session;
+import javax.mail.Store;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 
@@ -38,7 +41,7 @@ public class NewGmailAccountController implements Initializable {
     @FXML
     private TextField email;
     @FXML
-    private TextField password;
+    private PasswordField password;
     @FXML
     private Label error_email;
 
@@ -106,13 +109,6 @@ public class NewGmailAccountController implements Initializable {
         });
         backButton.setOnMouseEntered(event -> backButton.setImage(new Image("images/back_hover.png")));
         backButton.setOnMouseExited(event -> backButton.setImage(new Image("images/back.png")));
-
-        valid.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                //String email =
-            }
-        });
     }
 
     private void checkDisableValid() {
@@ -125,7 +121,11 @@ public class NewGmailAccountController implements Initializable {
     }
 
     private void onValid() {
+        String email = this.email.getText();
+        String password = this.password.getText();
 
+        this.valid.setVisible(false);
+        new LoginChecker().execute(email, password);
     }
 
     public void setStage(Stage stage) {
@@ -134,5 +134,31 @@ public class NewGmailAccountController implements Initializable {
 
     public void setApp(App app) {
         this.app = app;
+    }
+
+    private class LoginChecker extends AsyncTask<String, Boolean> {
+
+        @Override
+        protected Boolean doInBackground() {
+            Properties props = new Properties();
+            props.setProperty("mail.store.protocol", "imaps");
+            try {
+                Session session = Session.getInstance(props, null);
+                Store store = session.getStore();
+                store.connect(GmailAccount.IMAP_HOST, params[0], params[1]);
+                store.close();
+
+                return true;
+
+            } catch (Exception mex) {
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            System.out.println(result);
+            valid.setVisible(true);
+        }
     }
 }

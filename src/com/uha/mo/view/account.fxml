@@ -10,7 +10,7 @@
 <VBox fx:id="accountRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="640.0" style=" -fx-effect: dropshadow(gaussian , rgba(0,0,0,0.8), 3, 0, 1, 1);" xmlns="http://javafx.com/javafx/8.0.66" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uha.mo.view.AccountController">
    <children>
 
-       <ToolBar fx:id="toolbar" prefHeight="45.0" prefWidth="460.0" style="-fx-background-color: linear-gradient(to top, #3498db, #2980b9);">
+       <ToolBar fx:id="toolbar" prefHeight="45.0" prefWidth="460.0" style="-fx-background-color: #bdc3c7;">
            <items>
                <Label fx:id="mail" prefHeight="21.0" prefWidth="430.0" text="Label">
                <font>
