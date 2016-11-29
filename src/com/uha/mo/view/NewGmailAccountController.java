@@ -44,6 +44,8 @@ public class NewGmailAccountController implements Initializable {
     private PasswordField password;
     @FXML
     private Label error_email;
+    @FXML
+    private ImageView loading;
 
     private Stage stage;
     private App app;
@@ -59,6 +61,7 @@ public class NewGmailAccountController implements Initializable {
         this.menuBarContainer.prefWidthProperty().bind(this.menuBar.widthProperty().subtract(20));
         this.error_email.setVisible(false);
         this.valid.setDisable(true);
+        this.loading.setVisible(false);
 
         email.textProperty().addListener((observable, oldValue, newValue) -> {
 
@@ -125,6 +128,7 @@ public class NewGmailAccountController implements Initializable {
         String password = this.password.getText();
 
         this.valid.setVisible(false);
+        this.loading.setVisible(true);
         new LoginChecker().execute(email, password);
     }
 
@@ -159,6 +163,7 @@ public class NewGmailAccountController implements Initializable {
         protected void onPostExecute(Boolean result) {
             System.out.println(result);
             valid.setVisible(true);
+            loading.setVisible(false);
         }
     }
 }
