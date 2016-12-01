@@ -3,6 +3,8 @@ package com.uha.mo.view;
 import com.uha.mo.App;
 import com.uha.mo.model.GmailAccount;
 import com.uha.mo.utils.AsyncTask;
+import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.value.ChangeListener;
@@ -16,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import javax.mail.Folder;
 import javax.mail.Session;
@@ -46,6 +49,8 @@ public class NewGmailAccountController implements Initializable {
     private Label error_email;
     @FXML
     private ImageView loading;
+    @FXML
+    private Label error_connection;
 
     private Stage stage;
     private App app;
@@ -62,6 +67,8 @@ public class NewGmailAccountController implements Initializable {
         this.error_email.setVisible(false);
         this.valid.setDisable(true);
         this.loading.setVisible(false);
+        this.error_connection.prefWidthProperty().bind(this.menuBar.widthProperty());
+        this.error_connection.setVisible(false);
 
         email.textProperty().addListener((observable, oldValue, newValue) -> {
 
@@ -161,9 +168,38 @@ public class NewGmailAccountController implements Initializable {
 
         @Override
         protected void onPostExecute(Boolean result) {
-            System.out.println(result);
             valid.setVisible(true);
             loading.setVisible(false);
+
+            if(result) {
+
+            }
+            else {
+                FadeTransition fadeIn = new FadeTransition(Duration.millis(2000));
+                fadeIn.setNode(error_connection);
+                fadeIn.setFromValue(0.0);
+                fadeIn.setToValue(1.0);
+                fadeIn.setCycleCount(1);
+                fadeIn.setAutoReverse(false);
+
+                PauseTransition pause = new PauseTransition(Duration.millis(2000));
+                pause.setOnFinished(event -> {
+                    FadeTransition fadeOut = new FadeTransition(Duration.millis(2000));
+                    fadeOut.setNode(error_connection);
+                    fadeOut.setFromValue(1.0);
+                    fadeOut.setToValue(0.0);
+                    fadeOut.setCycleCount(1);
+                    fadeOut.setAutoReverse(false);
+                    fadeOut.playFromStart();
+                });
+
+                fadeIn.setOnFinished(event -> {
+                    pause.play();
+                });
+
+                error_connection.setVisible(true);
+                fadeIn.playFromStart();
+            }
         }
     }
 }
