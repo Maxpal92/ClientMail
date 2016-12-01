@@ -115,7 +115,7 @@ public class MailViewerController implements Initializable {
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/sendMail.fxml"));
-            VBox vBox = (VBox) loader.load();
+            VBox vBox = loader.load();
             Stage sendMailStage = new Stage();
             sendMailStage.setTitle("Mail Sender");
             sendMailStage.initModality(Modality.WINDOW_MODAL);
@@ -123,7 +123,7 @@ public class MailViewerController implements Initializable {
             Scene scene = new Scene(vBox);
             sendMailStage.setScene(scene);
 
-            sendMailController controller = (sendMailController) loader.getController();
+            sendMailController controller = loader.getController();
             controller.setAccount(account.getMailAddress());
             controller.setPassword(account.getPassword());
 

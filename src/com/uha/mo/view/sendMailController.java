@@ -19,13 +19,9 @@ import java.util.ResourceBundle;
  */
 public class sendMailController implements Initializable {
     @FXML
-    private Label sendToLabel;
-    @FXML
     private TextField sendToTextField;
     @FXML
     private TextArea mailContentTextArea;
-    @FXML
-    private Button sendButton;
 
     private String account;
     private String password;
@@ -62,7 +58,7 @@ public class sendMailController implements Initializable {
         try {
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("jeanmichelcrapaudensisa@gmail.fr"));
+            message.setFrom(new InternetAddress("jeanmichelcrapaudensisa@gmail.com"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(sendToTextField.getText().toString()));
             message.setSubject("Testing Subject");
