@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="853.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uha.mo.view.NewGmailAccountController">
     <children>
@@ -60,55 +59,51 @@
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
             </padding>
         </ToolBar>
-      <Label fx:id="error_connection" prefHeight="46.0" style="-fx-background-color: #e74c3c;" text="Erreur lors de la connexion au compte. Vérifiez vos identifiants et mot de passe." textFill="WHITE">
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-         <font>
-            <Font size="16.0" />
-         </font></Label>
-        <VBox alignment="CENTER" prefWidth="955.0" spacing="20.0" VBox.vgrow="ALWAYS">
-            <children>
-                <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../../../../images/gmail.png" />
-                    </image>
-                    <VBox.margin>
-                        <Insets bottom="11.0" top="11.0" />
-                    </VBox.margin>
-                </ImageView>
-                
-                <VBox prefWidth="100.0" spacing="10.0">
-                    <children>
-                        <Label text="Adresse Gmail" />
-                        <TextField fx:id="email" />
-                    </children>
-                </VBox>
-            <Label fx:id="error_email" prefHeight="21.0" prefWidth="490.0" text="Entrez une adresse gmail valide" textFill="RED">
-               <VBox.margin>
-                  <Insets bottom="-10.0" top="-10.0" />
-               </VBox.margin>
-            </Label>
-                <VBox layoutX="10.0" layoutY="10.0" prefWidth="100.0" spacing="10.0">
-                    <children>
-                        <Label text="Mot de passe" />
-                        <PasswordField fx:id="password" />
-                    </children>
-                </VBox>
-            <StackPane>
-               <children>
-                  <Button fx:id="valid" mnemonicParsing="false" prefHeight="31.0" prefWidth="245.0" text="Valider" />
-                  <ImageView fx:id="loading" fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../images/loading.gif" />
-                     </image>
-                  </ImageView>
-               </children>
-            </StackPane>
-            </children>
-            <padding>
-                <Insets left="200.0" right="200.0" />
-            </padding>
-        </VBox>
+        <StackPane fx:id="root" alignment="TOP_LEFT" VBox.vgrow="ALWAYS">
+            <VBox alignment="CENTER" spacing="20.0">
+                <children>
+                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../../../images/gmail.png" />
+                        </image>
+                        <VBox.margin>
+                            <Insets bottom="11.0" top="11.0" />
+                        </VBox.margin>
+                    </ImageView>
+
+                    <VBox prefWidth="100.0" spacing="10.0">
+                        <children>
+                            <Label text="Adresse Gmail" />
+                            <TextField fx:id="email" />
+                        </children>
+                    </VBox>
+                    <Label fx:id="error_email" prefHeight="21.0" prefWidth="490.0" text="Entrez une adresse gmail valide" textFill="RED">
+                        <VBox.margin>
+                            <Insets bottom="-10.0" top="-10.0" />
+                        </VBox.margin>
+                    </Label>
+                    <VBox layoutX="10.0" layoutY="10.0" prefWidth="100.0" spacing="10.0">
+                        <children>
+                            <Label text="Mot de passe" />
+                            <PasswordField fx:id="password" />
+                        </children>
+                    </VBox>
+                    <StackPane>
+                        <children>
+                            <Button fx:id="valid" mnemonicParsing="false" prefHeight="31.0" prefWidth="245.0" text="Valider" />
+                            <ImageView fx:id="loading" fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../../../../images/loading.gif" />
+                                </image>
+                            </ImageView>
+                        </children>
+                    </StackPane>
+                </children>
+                <padding>
+                    <Insets left="200.0" right="200.0" />
+                </padding>
+            </VBox>
+        </StackPane>
+
     </children>
 </VBox>

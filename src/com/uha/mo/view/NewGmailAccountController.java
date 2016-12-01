@@ -17,6 +17,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -50,7 +52,7 @@ public class NewGmailAccountController implements Initializable {
     @FXML
     private ImageView loading;
     @FXML
-    private Label error_connection;
+    private StackPane root;
 
     private Stage stage;
     private App app;
@@ -64,11 +66,10 @@ public class NewGmailAccountController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.menuBarContainer.prefWidthProperty().bind(this.menuBar.widthProperty().subtract(20));
+        this.root.prefWidthProperty().bind(this.menuBar.widthProperty());
         this.error_email.setVisible(false);
         this.valid.setDisable(true);
         this.loading.setVisible(false);
-        this.error_connection.prefWidthProperty().bind(this.menuBar.widthProperty());
-        this.error_connection.setVisible(false);
 
         email.textProperty().addListener((observable, oldValue, newValue) -> {
 
@@ -175,30 +176,11 @@ public class NewGmailAccountController implements Initializable {
 
             }
             else {
-                FadeTransition fadeIn = new FadeTransition(Duration.millis(2000));
-                fadeIn.setNode(error_connection);
-                fadeIn.setFromValue(0.0);
-                fadeIn.setToValue(1.0);
-                fadeIn.setCycleCount(1);
-                fadeIn.setAutoReverse(false);
-
-                PauseTransition pause = new PauseTransition(Duration.millis(2000));
-                pause.setOnFinished(event -> {
-                    FadeTransition fadeOut = new FadeTransition(Duration.millis(2000));
-                    fadeOut.setNode(error_connection);
-                    fadeOut.setFromValue(1.0);
-                    fadeOut.setToValue(0.0);
-                    fadeOut.setCycleCount(1);
-                    fadeOut.setAutoReverse(false);
-                    fadeOut.playFromStart();
-                });
-
-                fadeIn.setOnFinished(event -> {
-                    pause.play();
-                });
-
-                error_connection.setVisible(true);
-                fadeIn.playFromStart();
+                try {
+                    new com.uha.mo.utils.Error(root,"Erreur lors de la connection au compte. Vérifiez vos identifiant et mot de passe.").show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
