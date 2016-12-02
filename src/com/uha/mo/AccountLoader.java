@@ -36,6 +36,7 @@ public class AccountLoader {
                     switch (type) {
                         case "gmail":
                             this.accounts.add(new GmailAccount(address, password));
+
                             break;
                         case "yahoo":
                             this.accounts.add(new YahooAccount(address, password));
