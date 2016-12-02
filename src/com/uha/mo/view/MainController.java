@@ -1,5 +1,6 @@
 package com.uha.mo.view;
 
+import com.uha.mo.model.Model;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -88,6 +89,13 @@ public class MainController implements Initializable {
 
     public VBox getRoot() {
         return this.fenetre;
+    }
+
+    public void setModel(Model model) {
+        if(model.getAccounts().size() <=2)
+            this.fenetre.setPrefWidth(640*model.getAccounts().size() + 10 + 2*10);
+        else
+            this.fenetre.setPrefWidth(640*2 + 10 + 2*10);
     }
 }
 

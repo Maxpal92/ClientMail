@@ -40,10 +40,6 @@ public class App extends Application {
         this.primaryStage = primaryStage;
         this.model = new Model();
 
-        /************** LOAD ACCOUNTS REGISTERED FROM THE XML FILE **************/
-        AccountLoader loader = new AccountLoader();
-        this.accounts = loader.getAccounts();
-
         initRootLayout();
 
         this.primaryStage.initStyle(StageStyle.TRANSPARENT);
@@ -74,6 +70,11 @@ public class App extends Application {
 
     public void initRootLayout() {
         try {
+
+            /************** LOAD ACCOUNTS REGISTERED FROM THE XML FILE **************/
+            AccountLoader accountLoader = new AccountLoader();
+            this.accounts = accountLoader.getAccounts();
+
             if(accounts.size() == 0) {
                 initNoAccountLayout();
             }
@@ -93,6 +94,7 @@ public class App extends Application {
 
                 this.rootController = loader.getController();
                 this.rootController.setStage(this.primaryStage);
+                this.rootController.setModel(this.model);
 
                 Group group = new Group(this.rootController.getRoot());
                 group.setEffect(new DropShadow());
@@ -100,7 +102,6 @@ public class App extends Application {
                 Scene scene = new Scene(group);
                 scene.setFill(Color.TRANSPARENT);
 
-                this.primaryStage.initStyle(StageStyle.TRANSPARENT);
                 this.primaryStage.setScene(scene);
 
                 addAccountsLayout();
@@ -153,10 +154,6 @@ public class App extends Application {
                         mailRoot.prefWidthProperty().bind(accountsController.getAccountRoot().widthProperty().subtract(20));
                     }
                 }
-            }
-
-            if(model.getAccounts().size() > 2) {
-                this.rootController.getScrollPane().setPrefWidth(640*2 + 10 + 2*10);
             }
 
         } catch (IOException e) {

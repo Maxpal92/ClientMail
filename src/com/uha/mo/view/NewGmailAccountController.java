@@ -21,10 +21,21 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 import javax.mail.Folder;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
@@ -173,7 +184,37 @@ public class NewGmailAccountController implements Initializable {
             loading.setVisible(false);
 
             if(result) {
+                try {
+                    Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
+                    Node root = xml.getDocumentElement();
 
+                    Element newAccount = xml.createElement("Account");
+                    newAccount.setAttribute("type", "gmail");
+                    newAccount.setAttribute("address", email.getText());
+                    newAccount.setAttribute("password", password.getText());
+
+                    root.appendChild(newAccount);
+
+                    Transformer tr = TransformerFactory.newInstance().newTransformer();
+                    tr.setOutputProperty(OutputKeys.INDENT, "yes");
+                    tr.setOutputProperty(OutputKeys.METHOD, "xml");
+                    tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                    tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+                    tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("src/com/uha/mo/model/accounts.xml")));
+
+                    app.initRootLayout();
+
+                } catch (SAXException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ParserConfigurationException e) {
+                    e.printStackTrace();
+                } catch (TransformerConfigurationException e) {
+                    e.printStackTrace();
+                } catch (TransformerException e) {
+                    e.printStackTrace();
+                }
             }
             else {
                 try {
