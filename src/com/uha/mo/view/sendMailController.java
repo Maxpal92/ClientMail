@@ -25,13 +25,32 @@ public class sendMailController implements Initializable {
     private TextField sendToTextField;
     @FXML
     private TextArea mailContentTextArea;
+    @FXML
+    private TextField subjectTextField;
+
+    public TextField getSubjectTextField() {
+        return subjectTextField;
+    }
+
+    public void setSubjectTextField(String cc) {
+        subjectTextField.setText(cc);
+    }
 
     private Account account;
+    private String subject;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    public void setSubject(String sub){
+        this.subject = sub;
+    }
+
+    public String getSubject(){
+        return subject;
     }
 
     public Account getAccount() {
