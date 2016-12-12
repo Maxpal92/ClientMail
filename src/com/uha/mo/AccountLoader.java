@@ -45,8 +45,15 @@ public class AccountLoader {
 
                             customAccount.setSMTP_HOST(((Element)accountNode).getAttribute("smtpHost"));
                             customAccount.setSMTP_PORT(((Element)accountNode).getAttribute("smtpPort"));
-                            customAccount.setIMAP_HOST(((Element)accountNode).getAttribute("imapHost"));
-                            customAccount.setIMAP_HOST(((Element)accountNode).getAttribute("imapPort"));
+
+                            String getProtocol = ((Element)accountNode).getAttribute("getProtocol");
+                            switch (getProtocol) {
+                                case "IMAP":
+                                    customAccount.setGET_PROTOCOL("IMAP");
+                                    customAccount.setGET_PROTOCOL_HOST(((Element)accountNode).getAttribute("getHost"));
+                                    customAccount.setGET_PROTOCOL_PORT(((Element)accountNode).getAttribute("getPort"));
+
+                            }
 
                             this.accounts.add(customAccount);
                             break;
