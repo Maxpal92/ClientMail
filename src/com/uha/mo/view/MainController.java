@@ -93,9 +93,9 @@ public class MainController implements Initializable {
 
     public void setModel(Model model) {
         if(model.getAccounts().size() <=2)
-            this.fenetre.setPrefWidth(640*model.getAccounts().size() + 10 + 2*10);
+            this.fenetre.setPrefWidth(640*model.getAccounts().size() + 12);
         else
-            this.fenetre.setPrefWidth(640*2 + 10 + 2*10);
+            this.fenetre.setPrefWidth(640*2 + 12);
     }
 }
 

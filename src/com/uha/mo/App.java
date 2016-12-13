@@ -15,6 +15,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -97,7 +98,7 @@ public class App extends Application {
                 this.rootController.setModel(this.model);
 
                 Group group = new Group(this.rootController.getRoot());
-                group.setEffect(new DropShadow());
+                group.setStyle("-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 20, 0.5, 0.0, 0.0);");
 
                 Scene scene = new Scene(group);
                 scene.setFill(Color.TRANSPARENT);
@@ -151,7 +152,10 @@ public class App extends Application {
                         mailController.getSubject().setText(m.getSubject());
                         mailController.setID(m.getID());
 
-                        mailRoot.prefWidthProperty().bind(accountsController.getAccountRoot().widthProperty().subtract(20));
+                        if(a.getMessages().size() > 5)
+                            mailRoot.prefWidthProperty().bind(accountsController.getAccountRoot().widthProperty().subtract(40));
+                        else
+                            mailRoot.prefWidthProperty().bind(accountsController.getAccountRoot().widthProperty().subtract(20));
                     }
                 }
             }

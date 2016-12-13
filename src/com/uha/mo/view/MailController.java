@@ -33,12 +33,12 @@ public class MailController implements Initializable {
 
         root.setOnMouseEntered(event -> {
             root.setCursor(Cursor.HAND);
-            root.setStyle("-fx-background-color: rgba(52, 152, 219, 0.8);");
+            root.setStyle("-fx-background-color:  rgba(41, 128, 185, 0.8);");
         });
 
         root.setOnMouseExited(event -> {
             root.setCursor(Cursor.DEFAULT);
-            root.setStyle("-fx-background-color: rgba(52, 152, 219, 0.5);");
+            root.setStyle("-fx-background-color: rgba(52, 152, 219, 0.8);");
         });
 
         root.setOnMouseClicked(event -> {
