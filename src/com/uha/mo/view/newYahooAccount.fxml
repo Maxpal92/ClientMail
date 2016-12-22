@@ -73,7 +73,7 @@
 
                     <VBox prefWidth="100.0" spacing="10.0">
                         <children>
-                            <Label text="Adresse Gmail" />
+                            <Label text="Adresse Yahoo! mail" />
                             <TextField fx:id="email" />
                         </children>
                     </VBox>

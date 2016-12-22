@@ -4,6 +4,7 @@ import com.uha.mo.model.Account;
 import com.uha.mo.model.GmailAccount;
 import com.uha.mo.model.Message;
 import com.uha.mo.model.Model;
+import com.uha.mo.utils.AsyncTask;
 import com.uha.mo.view.*;
 import com.uha.mo.model.*;
 import com.uha.mo.view.AccountController;
@@ -17,15 +18,31 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
 import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Store;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class App extends Application {
 
@@ -33,7 +50,7 @@ public class App extends Application {
     private MainController rootController;
 
     private Model model;
-    private ArrayList<Account> accounts;
+    private App referenceForAccountChecker = this;
 
     @Override
     public void start(Stage primaryStage) {
@@ -70,46 +87,45 @@ public class App extends Application {
     }
 
     public void initRootLayout() {
-        try {
 
-            /************** LOAD ACCOUNTS REGISTERED FROM THE XML FILE **************/
-            AccountLoader accountLoader = new AccountLoader();
-            this.accounts = accountLoader.getAccounts();
+        this.model.getAccounts().clear();
 
-            if(accounts.size() == 0) {
-                initNoAccountLayout();
+        /************** LOAD ACCOUNTS REGISTERED FROM THE XML FILE **************/
+        AccountLoader accountLoader = new AccountLoader();
+        ArrayList<Account> accounts = accountLoader.getAccounts();
+
+        if(accounts.size() == 0) {
+            initNoAccountLayout();
+        }
+        else {
+            this.model.getAccounts().addAll(accounts);
+
+            /************** CHECK OUT EMAILS FOR EACH ACCOUNT **************/
+            for (Account account : this.model.getAccounts()) {
+                new AccountsChecker().execute(account);
             }
-            else {
-                this.model.getAccounts().addAll(accounts);
 
-                /************** CHECK OUT EMAILS FOR EACH ACCOUNT **************/
-                for (Account account : this.model.getAccounts()) {
-                    if (account instanceof GmailAccount) {
-                        ArrayList<Message> messages = new GmailChecker(account).getMessages();
-                        account.getMessages().addAll(messages);
-                    }
-                }
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("view/main.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("view/main.fxml"));
+            try {
                 loader.load();
-
-                this.rootController = loader.getController();
-                this.rootController.setStage(this.primaryStage);
-                this.rootController.setModel(this.model);
-
-                Group group = new Group(this.rootController.getRoot());
-                group.setStyle("-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 20, 0.5, 0.0, 0.0);");
-
-                Scene scene = new Scene(group);
-                scene.setFill(Color.TRANSPARENT);
-
-                this.primaryStage.setScene(scene);
-
-                addAccountsLayout();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            rootController = loader.getController();
+            rootController.setStage(primaryStage);
+            rootController.setModel(model);
+            rootController.setApp(referenceForAccountChecker);
+
+            addAccountsLayout();
+
+            Group group = new Group(rootController.getRoot());
+            group.setStyle("-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 20, 0.5, 0.0, 0.0);");
+
+            Scene scene = new Scene(group);
+            scene.setFill(Color.TRANSPARENT);
+
+            primaryStage.setScene(scene);
         }
     }
 
@@ -120,48 +136,68 @@ public class App extends Application {
 
                 FXMLLoader accountLoader = new FXMLLoader(getClass().getResource("view/account.fxml"));
                 accountLoader.load();
-                AccountController accountsController = accountLoader.getController();
+                AccountController accountController = accountLoader.getController();
 
-                this.rootController.getAccounts().getChildren().add(accountsController.getAccountRoot());
+                this.rootController.getAccounts().getChildren().add(accountController.getAccountRoot());
 
-                accountsController.setTitle(a.mailAddressProperty());
-                accountsController.setParent(this.rootController.getAccounts());
+                accountController.setTitle(a.mailAddressProperty());
+                accountController.setParent(this.rootController.getAccounts());
 
-                if(a.getMessages().size() == 0) {
-                    FXMLLoader emptyLoader = new FXMLLoader(getClass().getResource("view/nomessage.fxml"));
-                    Label label = emptyLoader.load();
-                    accountsController.getMailsContainer().getChildren().add(label);
-
-                    label.prefWidthProperty().bind(accountsController.getMailsContainer().widthProperty());
-                    label.setPrefHeight(100);
-                }
-                else {
-                    for(Message m : a.getMessages()) {
-
-                        FXMLLoader mailLoader = new FXMLLoader(getClass().getResource("view/mail.fxml"));
-                        VBox mailRoot = mailLoader.load();
-                        MailController mailController = mailLoader.getController();
-
-                        mailController.setAccountParent(a);
-                        mailController.setMain(this);
-
-                        accountsController.getMailsContainer().getChildren().add(mailRoot);
-
-                        mailController.getFrom().setText(m.getFrom());
-                        mailController.getDate().setText(new SimpleDateFormat("dd MMM - HH:mm:ss").format(m.getDate()));
-                        mailController.getSubject().setText(m.getSubject());
-                        mailController.setID(m.getID());
-
-                        if(a.getMessages().size() > 5)
-                            mailRoot.prefWidthProperty().bind(accountsController.getAccountRoot().widthProperty().subtract(40));
-                        else
-                            mailRoot.prefWidthProperty().bind(accountsController.getAccountRoot().widthProperty().subtract(20));
-                    }
-                }
+                a.setController(accountController);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void addMessagesLayout() {
+        for(Account a : this.model.getAccounts()) {
+
+            a.getController().getMailsContainer().getChildren().clear();
+
+            if(a.getMessages().size() == 0) {
+                FXMLLoader emptyLoader = new FXMLLoader(getClass().getResource("view/nomessage.fxml"));
+                Label label = null;
+                try {
+                    label = emptyLoader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                a.getController().getMailsContainer().getChildren().add(label);
+
+                label.prefWidthProperty().bind(a.getController().getMailsContainer().widthProperty());
+                label.setPrefHeight(100);
+            }
+            else {
+
+                for(Message m : a.getMessages()) {
+
+                    FXMLLoader mailLoader = new FXMLLoader(getClass().getResource("view/mail.fxml"));
+                    VBox mailRoot = null;
+                    try {
+                        mailRoot = mailLoader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    MailController mailController = mailLoader.getController();
+
+                    mailController.setAccountParent(a);
+                    mailController.setMain(this);
+
+                    a.getController().getMailsContainer().getChildren().add(mailRoot);
+
+                    mailController.getFrom().setText(m.getFrom());
+                    mailController.getDate().setText(new SimpleDateFormat("dd MMM - HH:mm:ss").format(m.getDate()));
+                    mailController.getSubject().setText(m.getSubject());
+                    mailController.setID(m.getID());
+
+                    if(a.getMessages().size() > 5)
+                        mailRoot.prefWidthProperty().bind(a.getController().getAccountRoot().widthProperty().subtract(40));
+                    else
+                        mailRoot.prefWidthProperty().bind(a.getController().getAccountRoot().widthProperty().subtract(20));
+                }
+            }
         }
     }
 
@@ -175,6 +211,7 @@ public class App extends Application {
         }
         this.rootController.getAccounts().getChildren().clear();
         addAccountsLayout();
+        addMessagesLayout();
     }
 
     public void setScene(String sceneType) throws IOException {
@@ -224,6 +261,56 @@ public class App extends Application {
 
                 this.primaryStage.setScene(scene3);
                 break;
+
+            case "settings":
+                FXMLLoader settingsLoader = new FXMLLoader((getClass().getResource("view/settings.fxml")));
+                BorderPane settingsRoot = settingsLoader.load();
+                ((SettingsController) settingsLoader.getController()).setStage(this.primaryStage);
+                ((SettingsController) settingsLoader.getController()).setApp(this);
+
+                Group settingsGroup = new Group(settingsRoot);
+                settingsGroup.setEffect(new DropShadow());
+
+                Scene scene4 = new Scene(settingsGroup);
+                scene4.setFill(Color.TRANSPARENT);
+
+                this.primaryStage.setScene(scene4);
+                break;
         }
+    }
+
+    public void refreshModel() {
+        this.model.getAccounts().clear();
+        this.model.getAccounts().addAll(new AccountLoader().getAccounts());
+    }
+
+    private class AccountsChecker extends AsyncTask<Account, ArrayList<Message>> {
+
+        @Override
+        protected ArrayList<Message> doInBackground() {
+            if(params[0] instanceof GmailAccount) {
+                return new GmailChecker(params[0]).getMessages();
+            }
+            else if(params[0] instanceof YahooAccount) {
+                try {
+                    return new YahooChecker(params[0]).getMessages();
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return new ArrayList<>();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Message> messages) {
+            params[0].getMessages().addAll(messages);
+            addMessagesLayout();
+        }
+    }
+
+    public Model getModel() {
+        return this.model;
     }
 }

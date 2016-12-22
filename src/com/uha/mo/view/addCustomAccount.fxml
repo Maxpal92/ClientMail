@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="853.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uha.mo.view.AddCustomAccountController">
+    <children>
+        <StackPane fx:id="root" alignment="TOP_LEFT" VBox.vgrow="NEVER">
+            <VBox alignment="CENTER" prefHeight="600.0" prefWidth="955.0" spacing="20.0" StackPane.alignment="CENTER" VBox.vgrow="ALWAYS">
+                <children>
+                    <VBox prefHeight="200.0" spacing="20.0" VBox.vgrow="NEVER">
+                        <children>
+                            <HBox spacing="20.0">
+                                <children>
+                                    <VBox spacing="10.0">
+                                        <children>
+                                            <Label text="Adresse mail" />
+                                            <TextField fx:id="email" prefHeight="31.0" prefWidth="300.0" />
+                                        </children>
+                                    </VBox>
+                                    <VBox spacing="10.0">
+                                        <children>
+                                            <Label text="Mot de passe" />
+                                            <PasswordField fx:id="password" prefWidth="300.0" />
+                                        </children>
+                                    </VBox>
+                                </children>
+                            </HBox>
+                            <HBox spacing="20.0">
+                                <children>
+                                    <VBox spacing="10.0">
+                                        <children>
+                                            <Label text="Serveur SMTP" />
+                                            <TextField fx:id="smtpHost" prefWidth="300.0" />
+                                        </children>
+                                    </VBox>
+                                    <VBox spacing="10.0">
+                                        <children>
+                                            <Label text="Port SMTP" />
+                                            <TextField fx:id="smtpPort" prefWidth="100.0" />
+                                        </children>
+                                    </VBox>
+                                </children>
+                            </HBox>
+                            <HBox spacing="20.0">
+                                <children>
+                                    <VBox spacing="20.0">
+                                        <children>
+                                            <VBox layoutX="10.0" layoutY="10.0" spacing="10.0">
+                                                <children>
+                                                    <Label text="Serveur de récupération d'e-mails" />
+                                                    <TextField fx:id="getHost" prefWidth="300.0" />
+                                                </children>
+                                            </VBox>
+                                        </children>
+                                    </VBox>
+                                    <VBox spacing="10.0">
+                                        <children>
+                                            <Label text="Port" />
+                                            <TextField fx:id="getPort" prefWidth="100.0" />
+                                        </children>
+                                    </VBox>
+                                    <VBox prefHeight="62.0" prefWidth="156.0" spacing="10.0">
+                                        <children>
+                                            <Label prefWidth="232.0" text="Protocole" />
+                                            <ComboBox fx:id="getProtocol" prefHeight="31.0" prefWidth="241.0">
+                                                <items>
+                                                    <FXCollections fx:factory="observableArrayList">
+                                                        <String fx:value="IMAP" />
+                                                        <String fx:value="POP3" />
+                                                    </FXCollections>
+                                                </items>
+                                                <value>
+                                                    <String fx:value="IMAP" />
+                                                </value>
+                                            </ComboBox>
+                                        </children>
+                                    </VBox>
+                                </children>
+                            </HBox>
+                        </children>
+                        <VBox.margin>
+                            <Insets bottom="30.0" top="30.0" />
+                        </VBox.margin>
+                    </VBox>
+                    <StackPane>
+                        <children>
+                            <Button fx:id="valid" mnemonicParsing="false" prefHeight="31.0" prefWidth="245.0" text="Valider" />
+                            <ImageView fx:id="loading" fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../../../../images/loading.gif" />
+                                </image>
+                            </ImageView>
+                        </children>
+                    </StackPane>
+                </children>
+                <padding>
+                    <Insets left="100.0" right="100.0" />
+                </padding>
+            </VBox>
+        </StackPane>
+
+    </children>
+</VBox>

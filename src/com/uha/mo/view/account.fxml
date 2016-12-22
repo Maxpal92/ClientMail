@@ -13,7 +13,7 @@
 <VBox fx:id="accountRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uha.mo.view.AccountController">
    <children>
 
-       <ToolBar fx:id="toolbar" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="460.0" style="-fx-background-color: rgba(52, 152, 219, 0.8);">
+       <ToolBar fx:id="toolbar" maxHeight="50.0" minHeight="50.0" prefHeight="50.0" prefWidth="460.0" style="-fx-background-color: rgba(231, 76, 60,1.0);">
            <items>
                <Label fx:id="mail" prefHeight="27.0" prefWidth="572.0" text="Label">
                <font>
@@ -23,7 +23,7 @@
        </ToolBar>
       <StackPane alignment="BOTTOM_RIGHT" VBox.vgrow="ALWAYS">
           <children>
-              <ScrollPane fx:id="scroll" prefWidth="640.0">
+              <ScrollPane fx:id="scroll" prefWidth="640.0" style="-fx-background-color: white;">
                   <content>
                       <VBox fx:id="mailsContainer" fillWidth="false" minHeight="0.0" minWidth="0.0" prefWidth="455.0" spacing="10">
                           <padding>

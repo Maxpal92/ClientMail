@@ -1,18 +1,25 @@
 package com.uha.mo.view;
 
+import com.uha.mo.App;
 import com.uha.mo.model.Model;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Side;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,6 +39,7 @@ public class MainController implements Initializable {
     private VBox fenetre;
 
     private Stage stage;
+    private App app;
     private double xOffset;
     private double yOffset;
 
@@ -67,7 +75,11 @@ public class MainController implements Initializable {
         /********************************* SETTINGS BUTTON *********************************/
 
         settingsButton.setOnMouseClicked(event -> {
-            //TODO
+            try {
+                app.setScene("settings");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
         settingsButton.setOnMouseEntered(event -> settingsButton.setImage(new Image("images/settings_hover.png")));
@@ -77,6 +89,10 @@ public class MainController implements Initializable {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setApp(App app) {
+        this.app = app;
     }
 
     public HBox getAccounts() {
@@ -92,8 +108,8 @@ public class MainController implements Initializable {
     }
 
     public void setModel(Model model) {
-        if(model.getAccounts().size() <=2)
-            this.fenetre.setPrefWidth(640*model.getAccounts().size() + 12);
+        if(model.getAccounts().size() == 1)
+            this.fenetre.setPrefWidth(640*model.getAccounts().size()+2);
         else
             this.fenetre.setPrefWidth(640*2 + 12);
     }
