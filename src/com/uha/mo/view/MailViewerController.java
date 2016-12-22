@@ -4,14 +4,19 @@ import com.uha.mo.MailStage;
 import com.uha.mo.model.Account;
 import com.uha.mo.model.Message;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -44,6 +49,7 @@ public class MailViewerController implements Initializable {
     private double yOffset;
 
     private MailController mailController;
+    private Account account;
 
     public MailViewerController() {
     }
@@ -75,6 +81,7 @@ public class MailViewerController implements Initializable {
 
         reply.setOnMouseEntered(event -> reply.setImage(new Image("images/reply_hover.png")));
         reply.setOnMouseExited(event -> reply.setImage(new Image("images/reply.png")));
+        reply.setOnMouseClicked(event -> this.getSendMailBox());
 
         /********************************* REPLY ALL BUTTON *********************************/
 
@@ -102,6 +109,34 @@ public class MailViewerController implements Initializable {
         this.to.setText(message.getTo());
         this.cc.setText("");
         this.content.getEngine().loadContent(message.getContent());
+    }
+
+    public void getSendMailBox(){
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/sendMail.fxml"));
+            VBox vBox = loader.load();
+            Stage sendMailStage = new Stage();
+            sendMailStage.setTitle("Mail Sender");
+            sendMailStage.initModality(Modality.WINDOW_MODAL);
+
+            Scene scene = new Scene(vBox);
+            sendMailStage.setScene(scene);
+
+            sendMailController controller = loader.getController();
+            controller.setAccount(account.getMailAddress());
+            controller.setPassword(account.getPassword());
+
+            sendMailStage.showAndWait();
+
+        }
+        catch(IOException var7){
+            var7.printStackTrace();
+        }
+    }
+
+    public void setAccount(Account account){
+        this.account = account;
     }
 }
 
