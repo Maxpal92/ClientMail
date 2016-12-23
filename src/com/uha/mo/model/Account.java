@@ -13,6 +13,7 @@ public abstract class Account {
     private ObservableList<com.uha.mo.model.Message> messages = FXCollections.observableArrayList();
     private AccountController controller;
 
+
     public String getMailAddress() { return mailAddress.get(); }
     public StringProperty mailAddressProperty() { return mailAddress; }
     public void setMailAddress(String mailAddress) { this.mailAddress.set(mailAddress); }

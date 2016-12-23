@@ -124,8 +124,10 @@ public class MailViewerController implements Initializable {
             sendMailStage.setScene(scene);
 
             sendMailController controller = loader.getController();
-            controller.setAccount(account.getMailAddress());
-            controller.setPassword(account.getPassword());
+            controller.setAccount(this.account);
+            controller.setSubject(this.subject.getText().toString());
+            controller.setSubjectTextField("Re : " + this.subject.getText().toString());
+
 
             sendMailStage.showAndWait();
 
