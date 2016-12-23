@@ -10,12 +10,11 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://E:/Telechargements/javax.mail.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../javax.mail.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="mail" level="project" />
   </component>
 </module>
