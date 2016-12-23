@@ -5,6 +5,7 @@ import com.uha.mo.model.Account;
 import com.uha.mo.model.CustomAccount;
 import com.uha.mo.model.GmailAccount;
 import com.uha.mo.model.YahooAccount;
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -22,8 +23,11 @@ public class AccountLoader {
 
     public AccountLoader() {
 
+        BasicTextEncryptor TextEncryptor = new BasicTextEncryptor();
+        TextEncryptor.setPassword("glhfstfureportNamhtoThx");
+
         try {
-            Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
+                Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
             Node root = xml.getDocumentElement();
 
             for(int i = 0; i < root.getChildNodes().getLength(); i++) {
@@ -35,14 +39,14 @@ public class AccountLoader {
 
                     switch (type) {
                         case "gmail":
-                            this.accounts.add(new GmailAccount(address, password));
+                            this.accounts.add(new GmailAccount(address, TextEncryptor.decrypt(password)));
 
                             break;
                         case "yahoo":
-                            this.accounts.add(new YahooAccount(address, password));
+                            this.accounts.add(new YahooAccount(address,  TextEncryptor.decrypt(password)));
                             break;
                         case "custom":
-                            CustomAccount customAccount = new CustomAccount(address, password);
+                            CustomAccount customAccount = new CustomAccount(address,  TextEncryptor.decrypt(password));
 
                             customAccount.setSMTP_HOST(((Element)accountNode).getAttribute("smtpHost"));
                             customAccount.setSMTP_PORT(((Element)accountNode).getAttribute("smtpPort"));

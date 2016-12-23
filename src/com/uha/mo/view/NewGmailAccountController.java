@@ -21,6 +21,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -184,6 +185,8 @@ public class NewGmailAccountController implements Initializable {
             loading.setVisible(false);
 
             if(result) {
+                BasicTextEncryptor TextEncryptor = new BasicTextEncryptor();
+                TextEncryptor.setPassword("glhfstfureportNamhtoThx");
                 try {
                     Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
                     Node root = xml.getDocumentElement();
@@ -191,7 +194,7 @@ public class NewGmailAccountController implements Initializable {
                     Element newAccount = xml.createElement("Account");
                     newAccount.setAttribute("type", "gmail");
                     newAccount.setAttribute("address", email.getText());
-                    newAccount.setAttribute("password", password.getText());
+                    newAccount.setAttribute("password", TextEncryptor.encrypt(password.getText()));
 
                     root.appendChild(newAccount);
 

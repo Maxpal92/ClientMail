@@ -12,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -137,6 +138,9 @@ public class AddYahooAccountController implements Initializable {
             loading.setVisible(false);
 
             if(result) {
+                //Creation de l'objet Encrypter qui permet de crypter le mot de passe du compte dans le fichier xml.
+                BasicTextEncryptor TextEncryptor = new BasicTextEncryptor();
+                TextEncryptor.setPassword("glhfstfureportNamhtoThx");
                 try {
                     Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
                     Node rootXML = xml.getDocumentElement();
@@ -144,7 +148,7 @@ public class AddYahooAccountController implements Initializable {
                     Element newAccount = xml.createElement("Account");
                     newAccount.setAttribute("type", "yahoo");
                     newAccount.setAttribute("address", email.getText());
-                    newAccount.setAttribute("password", password.getText());
+                    newAccount.setAttribute("password", TextEncryptor.encrypt(password.getText()));
 
                     rootXML.appendChild(newAccount);
 

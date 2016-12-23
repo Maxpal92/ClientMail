@@ -10,6 +10,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -134,6 +135,10 @@ public class AddGmailAccountController implements Initializable {
             valid.setVisible(true);
             loading.setVisible(false);
 
+            //Creation de l'objet Encrypter qui permet de crypter le mot de passe du compte dans le fichier xml.
+            BasicTextEncryptor TextEncryptor = new BasicTextEncryptor();
+            TextEncryptor.setPassword("glhfstfureportNamhtoThx");
+
             if(result) {
                 try {
                     Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
@@ -142,7 +147,7 @@ public class AddGmailAccountController implements Initializable {
                     Element newAccount = xml.createElement("Account");
                     newAccount.setAttribute("type", "gmail");
                     newAccount.setAttribute("address", email.getText());
-                    newAccount.setAttribute("password", password.getText());
+                    newAccount.setAttribute("password", TextEncryptor.encrypt(password.getText()));
 
                     rootXML.appendChild(newAccount);
 
