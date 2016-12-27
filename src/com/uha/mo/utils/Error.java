@@ -28,7 +28,7 @@ public class Error {
         Label label = loader.load();
         label.setText(this.message);
 
-        this.parent.getChildren().add(0,label);
+        this.parent.getChildren().add(label);
 
         label.prefWidthProperty().bind(parent.widthProperty());
 

@@ -1,5 +1,6 @@
 package com.uha.mo.view;
 
+import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -33,8 +34,8 @@ public class AccountMenuItemController implements Initializable {
         this.accountIcon .setImage(accountIcon);
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName.setText(accountName);
+    public void setAccountName(StringProperty accountName) {
+        this.accountName.textProperty().bind(accountName);
     }
 
     public void setAccountAddress(String accountAddress) {

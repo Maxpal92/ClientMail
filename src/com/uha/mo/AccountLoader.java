@@ -33,13 +33,40 @@ public class AccountLoader {
                     String address = ((Element)accountNode).getAttribute("address");
                     String password = ((Element)accountNode).getAttribute("password");
 
+                    String name = address;
+                    if(((Element)accountNode).hasAttribute("name")) {
+                        name = ((Element)accountNode).getAttribute("name");
+                    }
+
+                    boolean notifications = true;
+                    if(((Element)accountNode).hasAttribute("notifications")) {
+                        if(((Element)accountNode).getAttribute("notifications").equals("yes"))
+                            notifications = true;
+                        else
+                            notifications = false;
+                    }
+
+                    int period = 900000;
+                    if(((Element)accountNode).hasAttribute("period")) {
+                        period = Integer.parseInt(((Element)accountNode).getAttribute("period"));
+                    }
+
                     switch (type) {
                         case "gmail":
-                            this.accounts.add(new GmailAccount(address, password));
+                            GmailAccount gmailAccount = new GmailAccount(address, password);
+                            gmailAccount.setNotifications(notifications);
+                            gmailAccount.setSyncPeriod(period);
+                            gmailAccount.setName(name);
 
+                            this.accounts.add(gmailAccount);
                             break;
                         case "yahoo":
-                            this.accounts.add(new YahooAccount(address, password));
+                            YahooAccount yahooAccount = new YahooAccount(address, password);
+                            yahooAccount.setNotifications(notifications);
+                            yahooAccount.setSyncPeriod(period);
+                            yahooAccount.setName(name);
+
+                            this.accounts.add(yahooAccount);
                             break;
                         case "custom":
                             CustomAccount customAccount = new CustomAccount(address, password);
@@ -55,6 +82,10 @@ public class AccountLoader {
                                     customAccount.setGET_PROTOCOL_PORT(((Element)accountNode).getAttribute("getPort"));
 
                             }
+
+                            customAccount.setNotifications(notifications);
+                            customAccount.setSyncPeriod(period);
+                            customAccount.setName(name);
 
                             this.accounts.add(customAccount);
                             break;

@@ -168,31 +168,12 @@
                         <Insets bottom="20.0" />
                      </VBox.margin>
                    </HBox>
-                  <Separator layoutX="10.0" layoutY="185.0" prefWidth="200.0" />
-                  <HBox fx:id="notifications" alignment="CENTER_LEFT" layoutX="10.0" layoutY="345.0" spacing="30.0">
-                     <children>
-                        <ImageView fitHeight="30.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../images/notification.png" />
-                           </image>
-                        </ImageView>
-                        <Label text="Notifications">
-                           <font>
-                              <Font size="28.0" />
-                           </font>
-                        </Label>
-                     </children>
-                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </padding>
-                  </HBox>
-                  <Separator layoutX="10.0" layoutY="435.0" prefWidth="200.0" />
                </children>
             </VBox>
          </content>
       </ScrollPane>
    </left>
    <center>
-      <StackPane fx:id="root" BorderPane.alignment="CENTER" />
+      <StackPane fx:id="root" alignment="TOP_LEFT" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

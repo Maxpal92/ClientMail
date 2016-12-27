@@ -136,7 +136,7 @@ public class AddCustomAccountController implements Initializable {
 
                     new com.uha.mo.utils.Success(root, "Le compte a été ajouté avec succès.").show();
 
-                    parent.notifyEvent("newAccount");
+                    parent.notifyEvent();
 
                 } catch (SAXException e) {
                     e.printStackTrace();

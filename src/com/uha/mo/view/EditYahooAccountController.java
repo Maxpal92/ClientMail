@@ -1,13 +1,11 @@
 package com.uha.mo.view;
 
-import com.uha.mo.model.GmailAccount;
+import com.uha.mo.model.YahooAccount;
 import com.uha.mo.utils.AsyncTask;
+import com.uha.mo.utils.ModelManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import org.w3c.dom.Document;
@@ -30,9 +28,9 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
- * Created by othman on 20/12/2016.
+ * Created by othman on 24/12/2016.
  */
-public class AddGmailAccountController implements Initializable {
+public class EditYahooAccountController implements Initializable {
 
     @FXML
     private Button valid;
@@ -46,7 +44,16 @@ public class AddGmailAccountController implements Initializable {
     private ImageView loading;
     @FXML
     private StackPane root;
+    @FXML
+    private TextField name;
+    @FXML
+    private ComboBox<String> period;
+    @FXML
+    private CheckBox notifications;
+    @FXML
+    private Button delete;
 
+    private YahooAccount account;
     private SettingsController parent;
 
     private boolean emailOK = false;
@@ -56,20 +63,19 @@ public class AddGmailAccountController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
         this.error_email.setVisible(false);
-        this.valid.setDisable(true);
         this.loading.setVisible(false);
 
         email.textProperty().addListener((observable, oldValue, newValue) -> {
 
-            if(!email.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "gmail.com")){
-                email.setStyle("-fx-text-box-border: red ; -fx-focus-color: red ;");
-                error_email.setVisible(true);
-                emailOK = false;
-            }
-            else {
+            if(email.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "yahoo.com") || email.getText().matches("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "yahoo.fr")){
                 email.setStyle("-fx-text-box-border: green ; -fx-focus-color: green ;");
                 error_email.setVisible(false);
                 emailOK = true;
+            }
+            else {
+                email.setStyle("-fx-text-box-border: red ; -fx-focus-color: red ;");
+                error_email.setVisible(true);
+                emailOK = false;
             }
 
             checkDisableValid();
@@ -86,6 +92,7 @@ public class AddGmailAccountController implements Initializable {
         });
 
         valid.setOnAction(event -> onValid());
+        delete.setOnAction(event -> onDelete());
     }
 
     private void checkDisableValid() {
@@ -103,11 +110,43 @@ public class AddGmailAccountController implements Initializable {
 
         this.valid.setVisible(false);
         this.loading.setVisible(true);
-        new AddGmailAccountController.LoginChecker().execute(email, password);
+        new EditYahooAccountController.LoginChecker().execute(email, password);
+    }
+
+    private void onDelete() {
+        ModelManager.getInstance().deleteAccount(this.account);
+        parent.notifyEvent("delete");
     }
 
     public void setParent(SettingsController parent) {
         this.parent = parent;
+    }
+
+    public void setAccount(YahooAccount account) {
+        this.account = account;
+
+        name.setText(this.account.getName());
+        email.setText(this.account.getMailAddress());
+        password.setText(this.account.getPassword());
+        switch (this.account.getSyncPeriod()) {
+            case 900000:
+                period.setValue("Toutes les 15 minutes");
+                break;
+            case 1800000:
+                period.setValue("Toutes les 30 minutes");
+                break;
+            case 3600000:
+                period.setValue("Toutes les heures");
+                break;
+            case 7200000:
+                period.setValue("Toutes les 2 heures");
+                break;
+        }
+
+        if(this.account.isNotifications())
+            notifications.setSelected(true);
+        else
+            notifications.setSelected(false);
     }
 
     private class LoginChecker extends AsyncTask<String, Boolean> {
@@ -119,7 +158,7 @@ public class AddGmailAccountController implements Initializable {
             try {
                 Session session = Session.getInstance(props, null);
                 Store store = session.getStore();
-                store.connect(GmailAccount.IMAP_HOST, params[0], params[1]);
+                store.connect(YahooAccount.IMAP_HOST, params[0], params[1]);
                 store.close();
 
                 return true;
@@ -139,12 +178,37 @@ public class AddGmailAccountController implements Initializable {
                     Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
                     Node rootXML = xml.getDocumentElement();
 
-                    Element newAccount = xml.createElement("Account");
-                    newAccount.setAttribute("type", "gmail");
-                    newAccount.setAttribute("address", email.getText());
-                    newAccount.setAttribute("password", password.getText());
+                    for(int i = 0; i < rootXML.getChildNodes().getLength(); i++) {
+                        Node accountNode = rootXML.getChildNodes().item(i);
+                        if (accountNode.getNodeType() == Node.ELEMENT_NODE) {
+                            if(((Element)accountNode).getAttribute("address").equals(account.getMailAddress())) {
 
-                    rootXML.appendChild(newAccount);
+                                ((Element)accountNode).setAttribute("address", email.getText());
+                                ((Element)accountNode).setAttribute("password", password.getText());
+                                ((Element)accountNode).setAttribute("name", name.getText());
+
+                                switch (period.getSelectionModel().getSelectedItem()) {
+                                    case "Toutes les 15 minutes":
+                                        ((Element)accountNode).setAttribute("period","900000");
+                                        break;
+                                    case "Toutes les 30 minutes":
+                                        ((Element)accountNode).setAttribute("period","1800000");
+                                        break;
+                                    case "Toutes les heures":
+                                        ((Element)accountNode).setAttribute("period","3600000");
+                                        break;
+                                    case "Toutes les 2 heures":
+                                        ((Element)accountNode).setAttribute("period","7200000");
+                                        break;
+                                }
+
+                                if(notifications.isSelected())
+                                    ((Element)accountNode).setAttribute("notifications", "yes");
+                                else
+                                    ((Element)accountNode).setAttribute("notifications", "no");
+                            }
+                        }
+                    }
 
                     Transformer tr = TransformerFactory.newInstance().newTransformer();
                     tr.setOutputProperty(OutputKeys.INDENT, "yes");
@@ -153,7 +217,7 @@ public class AddGmailAccountController implements Initializable {
                     tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
                     tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("src/com/uha/mo/model/accounts.xml")));
 
-                    new com.uha.mo.utils.Success(root, "Le compte a été ajouté avec succès.").show();
+                    new com.uha.mo.utils.Success(root, "Paramètres modifiés.").show();
 
                     parent.notifyEvent();
 

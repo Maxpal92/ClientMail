@@ -1,10 +1,7 @@
 package com.uha.mo.view;
 
 import com.uha.mo.App;
-import com.uha.mo.model.Account;
-import com.uha.mo.model.GmailAccount;
-import com.uha.mo.model.Model;
-import com.uha.mo.model.YahooAccount;
+import com.uha.mo.model.*;
 import com.uha.mo.utils.AsyncTask;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
@@ -67,8 +64,6 @@ public class SettingsController implements Initializable {
     @FXML
     private HBox custom;
     @FXML
-    private HBox notifications;
-    @FXML
     private StackPane root;
 
     private Stage stage;
@@ -114,10 +109,6 @@ public class SettingsController implements Initializable {
         custom.setOnMouseClicked(event -> this.addAccount("custom"));
         custom.setOnMouseEntered(event -> custom.setStyle("-fx-background-color: rgba(189, 195, 199,1.0);"));
         custom.setOnMouseExited(event -> custom.setStyle("-fx-background-color: rgba(236, 240, 241,1.0);"));
-
-        notifications.setOnMouseClicked(e -> this.editNotifications());
-        notifications.setOnMouseEntered(event -> notifications.setStyle("-fx-background-color: rgba(189, 195, 199,1.0);"));
-        notifications.setOnMouseExited(event -> notifications.setStyle("-fx-background-color: rgba(236, 240, 241,1.0);"));
     }
 
     public void setStage(Stage stage) {
@@ -145,7 +136,7 @@ public class SettingsController implements Initializable {
 
                 AccountMenuItemController controller = loader.getController();
 
-                controller.setAccountName("TODO");
+                controller.setAccountName(account.nameProperty());
                 controller.setAccountAddress(account.getMailAddress());
 
                 if(account instanceof GmailAccount)
@@ -164,7 +155,42 @@ public class SettingsController implements Initializable {
     }
 
     private void editAccount(Account account) {
+        root.getChildren().clear();
 
+        try {
+            if(account instanceof GmailAccount) {
+                FXMLLoader gmailLoader = new FXMLLoader(getClass().getResource("editGmailAccount.fxml"));
+                StackPane gmailRoot = gmailLoader.load();
+
+                EditGmailAccountController gmailController = gmailLoader.getController();
+                gmailController.setAccount((GmailAccount)account);
+                gmailController.setParent(this);
+
+                root.getChildren().add(gmailRoot);
+            }
+            else if(account instanceof YahooAccount) {
+                FXMLLoader yahooLoader = new FXMLLoader(getClass().getResource("editYahooAccount.fxml"));
+                StackPane yahooRoot = yahooLoader.load();
+
+                EditYahooAccountController yahooController = yahooLoader.getController();
+                yahooController.setAccount((YahooAccount)account);
+                yahooController.setParent(this);
+
+                root.getChildren().add(yahooRoot);
+            }
+            else if(account instanceof CustomAccount) {
+                FXMLLoader customLoader = new FXMLLoader(getClass().getResource("editCustomAccount.fxml"));
+                StackPane customRoot = customLoader.load();
+
+                EditCustomAccountController customController = customLoader.getController();
+                customController.setAccount((CustomAccount)account);
+                customController.setParent(this);
+
+                root.getChildren().add(customRoot);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void addAccount(String type) {
@@ -205,23 +231,26 @@ public class SettingsController implements Initializable {
                     customRoot.prefHeightProperty().bind(root.heightProperty());
                     customRoot.prefWidthProperty().bind(root.widthProperty().subtract(3));
                     root.getChildren().add(customRoot);
-                    break;
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void editNotifications() {
-
+    public void notifyEvent() {
+        app.refreshModel();
+        setUpMenu();
     }
 
-    public void notifyEvent(String eventType) {
-        switch (eventType) {
-            case "newAccount":
-                app.refreshModel();
-                setUpMenu();
-                break;
+    public void notifyEvent(String event) {
+        if(event.equals("delete")) {
+            root.getChildren().clear();
+            notifyEvent();
+            try {
+                new com.uha.mo.utils.Success(root, "Le compte a été supprimé.").show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
