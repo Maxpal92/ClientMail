@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-
 <StackPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uha.mo.view.MainController">
    <children>
       <VBox fx:id="fenetre" maxHeight="720.0" prefHeight="720.0">
@@ -52,8 +51,8 @@
                       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                   </padding>
               </ToolBar>
-      
-              <ScrollPane fx:id="scrollPane" prefHeight="0.0" VBox.vgrow="ALWAYS">
+
+              <ScrollPane fx:id="scrollPane" prefHeight="0.0" style="-fx-focus-color: transparent;" VBox.vgrow="ALWAYS">
       
                   <HBox fx:id="accounts" prefHeight="${scrollPane.height}" spacing="10.0" style="-fx-background-color: #ecf0f1;" />
       

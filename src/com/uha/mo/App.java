@@ -16,10 +16,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToolBar;
 import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -140,7 +142,7 @@ public class App extends Application {
 
                 this.rootController.getAccounts().getChildren().add(accountController.getAccountRoot());
 
-                accountController.setTitle(a.mailAddressProperty());
+                accountController.setTitle(a.nameProperty());
                 accountController.setParent(this.rootController.getAccounts());
 
                 a.setController(accountController);
@@ -174,7 +176,7 @@ public class App extends Application {
                 for(Message m : a.getMessages()) {
 
                     FXMLLoader mailLoader = new FXMLLoader(getClass().getResource("view/mail.fxml"));
-                    VBox mailRoot = null;
+                    HBox mailRoot = null;
                     try {
                         mailRoot = mailLoader.load();
                     } catch (IOException e) {
