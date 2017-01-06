@@ -283,7 +283,7 @@ public class App extends Application {
 
     public void refreshModel() {
         this.model.getAccounts().clear();
-        this.model.getAccounts().addAll(new AccountLoader().getAccounts());
+        this.model.getAccounts().addAll(ModelManager.getInstance().loadAccounts());
     }
 
     private class AccountsChecker extends AsyncTask<Account, ArrayList<Message>> {

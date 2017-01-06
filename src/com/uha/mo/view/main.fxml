@@ -54,7 +54,7 @@
 
               <ScrollPane fx:id="scrollPane" prefHeight="0.0" style="-fx-focus-color: transparent;" VBox.vgrow="ALWAYS">
       
-                  <HBox fx:id="accounts" prefHeight="${scrollPane.height}" spacing="10.0" style="-fx-background-color: #ecf0f1;" />
+                  <HBox fx:id="accounts" prefHeight="${scrollPane.height}" style="-fx-background-color: #ecf0f1;" />
       
               </ScrollPane>
       

@@ -99,10 +99,6 @@ public class MainController implements Initializable {
         return this.accounts;
     }
 
-    public ScrollPane getScrollPane() {
-        return this.scrollPane;
-    }
-
     public VBox getRoot() {
         return this.fenetre;
     }
@@ -111,7 +107,7 @@ public class MainController implements Initializable {
         if(model.getAccounts().size() == 1)
             this.fenetre.setPrefWidth(640*model.getAccounts().size()+2);
         else
-            this.fenetre.setPrefWidth(640*2 + 12);
+            this.fenetre.setPrefWidth(640*2+2);
     }
 }
 

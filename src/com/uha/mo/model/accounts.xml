@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Accounts>
-    <Account address="oteniche@gmail.com" name="Bidon" notifications="yes" password="azertyuiop123" period="7200000" type="gmail"/>
-    <Account address="crapaud.j@yahoo.com" name="Crapaud" notifications="yes" password="azerty12345!P" period="3600000" type="yahoo"/>
-    
+    <Account address="oteniche@gmail.com" name="toto" notifications="false" password="azertyuiop123" period="7200000" type="gmail"/>
+    <Account address="crapaud.j@yahoo.com" name="Crapaud" notifications="false" password="azerty12345!P" period="3600000" type="yahoo"/>
 </Accounts>
