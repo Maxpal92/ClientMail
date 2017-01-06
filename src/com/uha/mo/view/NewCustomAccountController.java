@@ -1,9 +1,11 @@
 package com.uha.mo.view;
 
 import com.uha.mo.App;
+import com.uha.mo.model.CustomAccount;
 import com.uha.mo.model.GmailAccount;
 import com.uha.mo.model.YahooAccount;
 import com.uha.mo.utils.AsyncTask;
+import com.uha.mo.utils.ModelManager;
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.beans.binding.Bindings;
@@ -163,42 +165,15 @@ public class NewCustomAccountController implements Initializable {
             loading.setVisible(false);
 
             if(result) {
-                try {
-                    Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
-                    Node root = xml.getDocumentElement();
+                CustomAccount customAccount = new CustomAccount(email.getText(), password.getText());
+                customAccount.setSMTP_HOST(smtpHost.getText());
+                customAccount.setSMTP_PORT(smtpPort.getText());
+                customAccount.setGET_PROTOCOL((String) getProtocol.getSelectionModel().getSelectedItem());
+                customAccount.setGET_PROTOCOL_HOST(getHost.getText());
+                customAccount.setGET_PROTOCOL_PORT(getPort.getText());
 
-                    Element newAccount = xml.createElement("Account");
-                    newAccount.setAttribute("type", "custom");
-                    newAccount.setAttribute("address", email.getText());
-                    newAccount.setAttribute("password", password.getText());
-                    newAccount.setAttribute("smtpHost", smtpHost.getText());
-                    newAccount.setAttribute("smtpPort", smtpPort.getText());
-                    newAccount.setAttribute("getProtocol", (String) getProtocol.getSelectionModel().getSelectedItem());
-                    newAccount.setAttribute("getHost", getHost.getText());
-                    newAccount.setAttribute("getPort", getPort.getText());
-
-                    root.appendChild(newAccount);
-
-                    Transformer tr = TransformerFactory.newInstance().newTransformer();
-                    tr.setOutputProperty(OutputKeys.INDENT, "yes");
-                    tr.setOutputProperty(OutputKeys.METHOD, "xml");
-                    tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-                    tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-                    tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("src/com/uha/mo/model/accounts.xml")));
-
-                    app.initRootLayout();
-
-                } catch (SAXException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ParserConfigurationException e) {
-                    e.printStackTrace();
-                } catch (TransformerConfigurationException e) {
-                    e.printStackTrace();
-                } catch (TransformerException e) {
-                    e.printStackTrace();
-                }
+                ModelManager.getInstance().addAccount(customAccount);
+                app.initRootLayout();
             }
             else {
                 try {

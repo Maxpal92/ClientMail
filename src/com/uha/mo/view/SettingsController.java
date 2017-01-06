@@ -243,14 +243,23 @@ public class SettingsController implements Initializable {
     }
 
     public void notifyEvent(String event) {
-        if(event.equals("delete")) {
-            root.getChildren().clear();
-            notifyEvent();
-            try {
+        try {
+            if(event.equals("delete")) {
+                root.getChildren().clear();
+                notifyEvent();
                 new com.uha.mo.utils.Success(root, "Le compte a été supprimé.").show();
-            } catch (IOException e) {
-                e.printStackTrace();
             }
+            else if(event.equals("edited")) {
+                notifyEvent();
+                new com.uha.mo.utils.Success(root, "Paramètres modifiés.").show();
+            }
+            else if(event.equals("added")) {
+                root.getChildren().clear();
+                notifyEvent();
+                new com.uha.mo.utils.Success(root, "Le compte a été ajouté avec succès.").show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -5,6 +5,7 @@ import com.uha.mo.model.GmailAccount;
 import com.uha.mo.model.Message;
 import com.uha.mo.model.Model;
 import com.uha.mo.utils.AsyncTask;
+import com.uha.mo.utils.ModelManager;
 import com.uha.mo.view.*;
 import com.uha.mo.model.*;
 import com.uha.mo.view.AccountController;
@@ -93,8 +94,7 @@ public class App extends Application {
         this.model.getAccounts().clear();
 
         /************** LOAD ACCOUNTS REGISTERED FROM THE XML FILE **************/
-        AccountLoader accountLoader = new AccountLoader();
-        ArrayList<Account> accounts = accountLoader.getAccounts();
+        ArrayList<Account> accounts = ModelManager.getInstance().loadAccounts();
 
         if(accounts.size() == 0) {
             initNoAccountLayout();

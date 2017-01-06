@@ -4,6 +4,7 @@ import com.uha.mo.App;
 import com.uha.mo.model.GmailAccount;
 import com.uha.mo.model.YahooAccount;
 import com.uha.mo.utils.AsyncTask;
+import com.uha.mo.utils.ModelManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -137,39 +138,8 @@ public class AddYahooAccountController implements Initializable {
             loading.setVisible(false);
 
             if(result) {
-                try {
-                    Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
-                    Node rootXML = xml.getDocumentElement();
-
-                    Element newAccount = xml.createElement("Account");
-                    newAccount.setAttribute("type", "yahoo");
-                    newAccount.setAttribute("address", email.getText());
-                    newAccount.setAttribute("password", password.getText());
-
-                    rootXML.appendChild(newAccount);
-
-                    Transformer tr = TransformerFactory.newInstance().newTransformer();
-                    tr.setOutputProperty(OutputKeys.INDENT, "yes");
-                    tr.setOutputProperty(OutputKeys.METHOD, "xml");
-                    tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-                    tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-                    tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("src/com/uha/mo/model/accounts.xml")));
-
-                    new com.uha.mo.utils.Success(root, "Le compte a été ajouté avec succès.").show();
-
-                    parent.notifyEvent();
-
-                } catch (SAXException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ParserConfigurationException e) {
-                    e.printStackTrace();
-                } catch (TransformerConfigurationException e) {
-                    e.printStackTrace();
-                } catch (TransformerException e) {
-                    e.printStackTrace();
-                }
+                ModelManager.getInstance().addAccount(new YahooAccount(email.getText(), password.getText()));
+                parent.notifyEvent("added");
             }
             else {
                 try {

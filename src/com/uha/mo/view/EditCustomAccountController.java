@@ -2,6 +2,7 @@ package com.uha.mo.view;
 
 import com.uha.mo.model.CustomAccount;
 import com.uha.mo.model.GmailAccount;
+import com.uha.mo.model.YahooAccount;
 import com.uha.mo.utils.AsyncTask;
 import com.uha.mo.utils.ModelManager;
 import javafx.fxml.FXML;
@@ -155,70 +156,36 @@ public class EditCustomAccountController implements Initializable {
             loading.setVisible(false);
 
             if (result) {
-                try {
-                    Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
-                    Node rootXML = xml.getDocumentElement();
+                CustomAccount newAccount = new CustomAccount(email.getText(), password.getText());
+                newAccount.setName(name.getText());
+                newAccount.setSMTP_HOST(smtpHost.getText());
+                newAccount.setSMTP_PORT(smtpPort.getText());
+                newAccount.setGET_PROTOCOL((String) getProtocol.getSelectionModel().getSelectedItem());
+                newAccount.setGET_PROTOCOL_HOST(getHost.getText());
+                newAccount.setGET_PROTOCOL_PORT(getPort.getText());
 
-                    for (int i = 0; i < rootXML.getChildNodes().getLength(); i++) {
-                        Node accountNode = rootXML.getChildNodes().item(i);
-                        if (accountNode.getNodeType() == Node.ELEMENT_NODE) {
-                            if (((Element) accountNode).getAttribute("address").equals(account.getMailAddress())) {
-
-                                ((Element) accountNode).setAttribute("address", email.getText());
-                                ((Element) accountNode).setAttribute("password", password.getText());
-                                ((Element) accountNode).setAttribute("name", name.getText());
-
-                                ((Element) accountNode).setAttribute("smtpHost", smtpHost.getText());
-                                ((Element) accountNode).setAttribute("smtpPort", smtpPort.getText());
-                                ((Element) accountNode).setAttribute("getProtocol", (String) getProtocol.getSelectionModel().getSelectedItem());
-                                ((Element) accountNode).setAttribute("getHost", getHost.getText());
-                                ((Element) accountNode).setAttribute("getPort", getPort.getText());
-
-                                switch (period.getSelectionModel().getSelectedItem()) {
-                                    case "Toutes les 15 minutes":
-                                        ((Element) accountNode).setAttribute("period", "900000");
-                                        break;
-                                    case "Toutes les 30 minutes":
-                                        ((Element) accountNode).setAttribute("period", "1800000");
-                                        break;
-                                    case "Toutes les heures":
-                                        ((Element) accountNode).setAttribute("period", "3600000");
-                                        break;
-                                    case "Toutes les 2 heures":
-                                        ((Element) accountNode).setAttribute("period", "7200000");
-                                        break;
-                                }
-
-                                if (notifications.isSelected())
-                                    ((Element) accountNode).setAttribute("notifications", "yes");
-                                else
-                                    ((Element) accountNode).setAttribute("notifications", "no");
-                            }
-                        }
-                    }
-
-                    Transformer tr = TransformerFactory.newInstance().newTransformer();
-                    tr.setOutputProperty(OutputKeys.INDENT, "yes");
-                    tr.setOutputProperty(OutputKeys.METHOD, "xml");
-                    tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-                    tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-                    tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("src/com/uha/mo/model/accounts.xml")));
-
-                    new com.uha.mo.utils.Success(root, "Paramètres modifiés.").show();
-
-                    parent.notifyEvent();
-
-                } catch (SAXException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ParserConfigurationException e) {
-                    e.printStackTrace();
-                } catch (TransformerConfigurationException e) {
-                    e.printStackTrace();
-                } catch (TransformerException e) {
-                    e.printStackTrace();
+                switch (period.getSelectionModel().getSelectedItem()) {
+                    case "Toutes les 15 minutes":
+                        newAccount.setSyncPeriod(900000);
+                        break;
+                    case "Toutes les 30 minutes":
+                        newAccount.setSyncPeriod(1800000);
+                        break;
+                    case "Toutes les heures":
+                        newAccount.setSyncPeriod(3600000);
+                        break;
+                    case "Toutes les 2 heures":
+                        newAccount.setSyncPeriod(7200000);
+                        break;
                 }
+                if(notifications.isSelected())
+                    newAccount.setNotifications(true);
+                else
+                    newAccount.setNotifications(false);
+
+                ModelManager.getInstance().editAccount(account, newAccount);
+                parent.notifyEvent("edited");
+
             } else {
                 try {
                     new com.uha.mo.utils.Error(root, "Erreur lors de la connection au compte. Vérifiez vos identifiant et mot de passe.").show();
