@@ -229,6 +229,7 @@ public class SettingsController implements Initializable {
                     customRoot.prefHeightProperty().bind(root.heightProperty());
                     customRoot.prefWidthProperty().bind(root.widthProperty().subtract(3));
                     root.getChildren().add(customRoot);
+                    break;
             }
         } catch (IOException e) {
             e.printStackTrace();

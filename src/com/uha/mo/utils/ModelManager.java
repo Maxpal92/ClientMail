@@ -4,6 +4,7 @@ import com.uha.mo.model.Account;
 import com.uha.mo.model.CustomAccount;
 import com.uha.mo.model.GmailAccount;
 import com.uha.mo.model.YahooAccount;
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -26,12 +27,15 @@ import java.util.ArrayList;
 public class ModelManager {
 
     private static ModelManager ourInstance = new ModelManager();
-
+    private BasicTextEncryptor encryptor = new BasicTextEncryptor();
+    private String encryptionKey = "AZERTY123456789";
     public static ModelManager getInstance() {
         return ourInstance;
     }
 
-    private ModelManager() {}
+    private ModelManager() {
+        encryptor.setPassword(encryptionKey);
+    }
 
     public void addAccount(Account account) {
 
@@ -44,7 +48,7 @@ public class ModelManager {
                 Element newAccount = xml.createElement("Account");
                 newAccount.setAttribute("type", "gmail");
                 newAccount.setAttribute("address", account.getMailAddress());
-                newAccount.setAttribute("password", account.getPassword());
+                newAccount.setAttribute("password", encryptor.encrypt(account.getPassword()));
                 newAccount.setAttribute("name", account.getName());
                 newAccount.setAttribute("period", String.valueOf(account.getSyncPeriod()));
                 newAccount.setAttribute("notifications", String.valueOf(account.isNotifications()));
@@ -66,7 +70,7 @@ public class ModelManager {
                 Element newAccount = xml.createElement("Account");
                 newAccount.setAttribute("type", "yahoo");
                 newAccount.setAttribute("address", account.getMailAddress());
-                newAccount.setAttribute("password", account.getPassword());
+                newAccount.setAttribute("password", encryptor.encrypt(account.getPassword()));
                 newAccount.setAttribute("name", account.getName());
                 newAccount.setAttribute("period", String.valueOf(account.getSyncPeriod()));
                 newAccount.setAttribute("notifications", String.valueOf(account.isNotifications()));
@@ -87,7 +91,7 @@ public class ModelManager {
                 Element newAccount = xml.createElement("Account");
                 newAccount.setAttribute("type", "custom");
                 newAccount.setAttribute("address", account.getMailAddress());
-                newAccount.setAttribute("password", account.getPassword());
+                newAccount.setAttribute("password", encryptor.encrypt(account.getPassword()));
 
                 newAccount.setAttribute("smtpHost", ((CustomAccount) account).getSMTP_HOST());
                 newAccount.setAttribute("smtpPort", ((CustomAccount) account).getSMTP_PORT());
@@ -168,7 +172,7 @@ public class ModelManager {
                         if (((Element) accountNode).getAttribute("address").equals(oldAccount.getMailAddress())) {
 
                             ((Element) accountNode).setAttribute("address", newAccount.getMailAddress());
-                            ((Element) accountNode).setAttribute("password", newAccount.getPassword());
+                            ((Element) accountNode).setAttribute("password", encryptor.encrypt(newAccount.getPassword()));
                             ((Element) accountNode).setAttribute("name", newAccount.getName());
                             ((Element) accountNode).setAttribute("period", String.valueOf(newAccount.getSyncPeriod()));
                             ((Element) accountNode).setAttribute("notifications", String.valueOf(newAccount.isNotifications()));
@@ -183,7 +187,7 @@ public class ModelManager {
                         if (((Element) accountNode).getAttribute("address").equals(oldAccount.getMailAddress())) {
 
                             ((Element) accountNode).setAttribute("address", newAccount.getMailAddress());
-                            ((Element) accountNode).setAttribute("password", newAccount.getPassword());
+                            ((Element) accountNode).setAttribute("password", encryptor.encrypt(newAccount.getPassword()));
                             ((Element) accountNode).setAttribute("name", newAccount.getName());
 
                             ((Element) accountNode).setAttribute("smtpHost", ((CustomAccount)newAccount).getSMTP_HOST());
@@ -235,7 +239,7 @@ public class ModelManager {
                 if(accountNode.getNodeType() == Node.ELEMENT_NODE) {
                     String type = ((Element)accountNode).getAttribute("type");
                     String address = ((Element)accountNode).getAttribute("address");
-                    String password = ((Element)accountNode).getAttribute("password");
+                    String password = encryptor.decrypt(((Element)accountNode).getAttribute("password"));
 
                     String name = address;
                     if(((Element)accountNode).hasAttribute("name")) {
