@@ -45,15 +45,12 @@ public class YahooChecker {
             this.content = msg;
             this.date = msg.getSentDate();
 
-            this.messages.add(new com.uha.mo.model.Message(this.from, this.account.getMailAddress(), this.subject, this.content, this.date));
-
-            //this.messages.add(new Message(msg.getFrom()[0].toString(), account.getMailAddress(), msg.getSubject(), bp.getContent().toString(), msg.getSentDate()));
+            if(!msg.getFlags().contains(Flags.Flag.SEEN))
+                this.messages.add(new com.uha.mo.model.Message(this.from, this.account.getMailAddress(), this.subject, this.content, this.date));
         }
 
-
-
-
-
+        inbox.close(true);
+        store.close();
     }
 
     /*public YahooChecker(Account account) {

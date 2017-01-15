@@ -32,9 +32,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Store;
+import javax.mail.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
@@ -209,6 +207,29 @@ public class App extends Application {
 
     public void notifyEnd(long id) {
         for(Account account : this.model.getAccounts()) {
+            if(account.getMessages().contains(account.getMailById(id))) {
+                if(account instanceof GmailAccount) {
+                    Properties props = new Properties();
+                    props.setProperty("mail.store.protocol", "imaps");
+                    try {
+                        Session session = Session.getInstance(props, null);
+                        Store store = account.getMailById(id).getContent().getFolder().getStore();
+                        store.connect(GmailAccount.IMAP_HOST, account.getMailAddress(), account.getPassword());
+
+                        Folder inbox = account.getMailById(id).getContent().getFolder();
+                        inbox.open(Folder.READ_WRITE);
+                        account.getMailById(id).getContent().setFlag(Flags.Flag.SEEN, true);
+                        inbox.close(true);
+                        store.close();
+
+                    } catch (Exception mex) {
+                        mex.printStackTrace();
+                    }
+                }
+                else if (account instanceof YahooAccount) {
+                    // IMPOSSIBLE EN POP3
+                }
+            }
             account.getMessages().remove(account.getMailById(id));
         }
         this.rootController.getAccounts().getChildren().clear();
