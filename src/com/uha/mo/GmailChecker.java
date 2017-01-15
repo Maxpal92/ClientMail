@@ -31,14 +31,15 @@ public class GmailChecker {
             store.connect(GmailAccount.IMAP_HOST, account.getMailAddress(), account.getPassword());
 
             Folder inbox = store.getFolder("INBOX");
-            inbox.open(Folder.READ_ONLY);
+            inbox.open(Folder.READ_WRITE);
 
             for(int i = inbox.getMessages().length - 1; i >= 0; i--) {
                 javax.mail.Message msg = inbox.getMessages()[i];
-                this.messages.add(new Message(msg.getFrom()[0].toString(), account.getMailAddress(), msg.getSubject(), msg, msg.getSentDate()));
+                if(!msg.getFlags().contains(Flags.Flag.SEEN))
+                    this.messages.add(new Message(msg.getFrom()[0].toString(), account.getMailAddress(), msg.getSubject(), msg, msg.getSentDate()));
             }
 
-            inbox.close(false);
+            inbox.close(true);
             store.close();
 
         } catch (Exception mex) {
