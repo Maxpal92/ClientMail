@@ -122,6 +122,8 @@ public class App extends Application {
                 accountController.setTitle(a.nameProperty());
                 accountController.setParent(this.rootController.getAccounts());
 
+                accountController.setAccount(a);
+
                 a.setController(accountController);
             }
 

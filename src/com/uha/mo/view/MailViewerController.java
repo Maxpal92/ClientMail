@@ -131,6 +131,10 @@ public class MailViewerController implements Initializable {
             controller.setSubject(this.subject.getText().toString());
             controller.setSubjectTextField("Re : " + this.subject.getText().toString());
 
+            controller.setSendTo(this.from.getText());
+            controller.setSendToTextField(this.from.getText());
+
+
             sendMailStage.showAndWait();
 
         }

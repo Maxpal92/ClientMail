@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uha.mo.view.sendMailController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uha.mo.view.sendMailController">
    <children>
       <HBox prefHeight="87.0" prefWidth="600.0">
          <children>
@@ -50,6 +50,5 @@
             <TextArea fx:id="mailContentTextArea" prefHeight="334.0" prefWidth="600.0" />
          </children>
       </VBox>
-      <Label text="Label" />
    </children>
 </VBox>
