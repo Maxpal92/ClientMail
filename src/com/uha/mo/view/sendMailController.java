@@ -103,7 +103,6 @@ public class sendMailController implements Initializable {
 
             // Send message
             Transport transport = session.getTransport("smtp");
-            System.out.println(account.getMailAddress() + account.getPassword());
             transport.connect(YahooAccount.SMTP_HOST,account.getMailAddress(), account.getPassword());
 
             transport.sendMessage(message, message.getAllRecipients());
