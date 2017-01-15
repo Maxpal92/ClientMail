@@ -16,6 +16,9 @@ import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Part;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -41,7 +44,7 @@ public class MailViewerController implements Initializable {
     @FXML
     private Label cc;
     @FXML
-    private WebView content;
+    private WebView contentViewer;
 
     private MailStage stage;
 
@@ -108,7 +111,7 @@ public class MailViewerController implements Initializable {
         this.from.setText(message.getFrom());
         this.to.setText(message.getTo());
         this.cc.setText("");
-        //this.content.getEngine().loadContent(message.getContent());
+        this.contentViewer.getEngine().loadContent(message.getContent());
     }
 
     public void getSendMailBox(){
@@ -127,7 +130,6 @@ public class MailViewerController implements Initializable {
             controller.setAccount(this.account);
             controller.setSubject(this.subject.getText().toString());
             controller.setSubjectTextField("Re : " + this.subject.getText().toString());
-
 
             sendMailStage.showAndWait();
 

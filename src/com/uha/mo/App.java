@@ -1,45 +1,24 @@
 package com.uha.mo;
 
-import com.uha.mo.model.Account;
-import com.uha.mo.model.GmailAccount;
+import com.uha.mo.model.*;
 import com.uha.mo.model.Message;
-import com.uha.mo.model.Model;
 import com.uha.mo.utils.AsyncTask;
 import com.uha.mo.utils.ModelManager;
 import com.uha.mo.view.*;
-import com.uha.mo.model.*;
-import com.uha.mo.view.AccountController;
-import com.uha.mo.view.MailController;
-import com.uha.mo.view.MainController;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToolBar;
-import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 import javax.mail.*;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -213,12 +192,12 @@ public class App extends Application {
                     props.setProperty("mail.store.protocol", "imaps");
                     try {
                         Session session = Session.getInstance(props, null);
-                        Store store = account.getMailById(id).getContent().getFolder().getStore();
+                        Store store = account.getMailById(id).getReference().getFolder().getStore();
                         store.connect(GmailAccount.IMAP_HOST, account.getMailAddress(), account.getPassword());
 
-                        Folder inbox = account.getMailById(id).getContent().getFolder();
+                        Folder inbox = account.getMailById(id).getReference().getFolder();
                         inbox.open(Folder.READ_WRITE);
-                        account.getMailById(id).getContent().setFlag(Flags.Flag.SEEN, true);
+                        account.getMailById(id).getReference().setFlag(Flags.Flag.SEEN, true);
                         inbox.close(true);
                         store.close();
 
