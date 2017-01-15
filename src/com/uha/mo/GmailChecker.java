@@ -35,9 +35,7 @@ public class GmailChecker {
 
             for(int i = inbox.getMessages().length - 1; i >= 0; i--) {
                 javax.mail.Message msg = inbox.getMessages()[i];
-                writePart(msg);
-
-                //this.messages.add(new Message(msg.getFrom()[0].toString(), account.getMailAddress(), msg.getSubject(), bp.getContent().toString(), msg.getSentDate()));
+                this.messages.add(new Message(msg.getFrom()[0].toString(), account.getMailAddress(), msg.getSubject(), msg, msg.getSentDate()));
             }
 
             inbox.close(false);
@@ -46,34 +44,6 @@ public class GmailChecker {
         } catch (Exception mex) {
             mex.printStackTrace();
         }
-    }
-
-    public void writePart(Part p) throws Exception {
-        if (p instanceof javax.mail.Message) {
-            this.date = ((javax.mail.Message) p).getSentDate();
-            writeEnvelope((javax.mail.Message) p);
-        }
-        //check if the content is plain text
-        if (p.isMimeType("text/plain")) {
-            this.content = p.getContent().toString();
-            this.messages.add(new Message(this.from, this.account.getMailAddress(), this.subject, this.content, this.date));
-        }
-        //check if the content has attachment
-        else if (p.isMimeType("multipart/*")) {
-            Multipart mp = (Multipart) p.getContent();
-            int count = mp.getCount();
-            for (int i = 0; i < count; i++)
-                writePart(mp.getBodyPart(i));
-        }
-    }
-
-    public void writeEnvelope(javax.mail.Message m) throws Exception {
-
-        if (m.getFrom() != null)
-            this.from = m.getFrom()[0].toString();
-
-        if (m.getSubject() != null)
-            this.subject = m.getSubject();
     }
 
     public ArrayList<Message> getMessages() {

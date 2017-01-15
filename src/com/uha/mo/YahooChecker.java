@@ -19,7 +19,7 @@ public class YahooChecker {
     private Account account;
     private String from;
     private String subject;
-    private String content;
+    private javax.mail.Message content;
     private Date date;
 
     public YahooChecker(Account account) throws MessagingException, IOException {
@@ -42,7 +42,7 @@ public class YahooChecker {
             javax.mail.Message msg = inbox.getMessages()[i];
             this.from = msg.getFrom()[0].toString();
             this.subject = msg.getSubject();
-            this.content = msg.getContent().toString();
+            this.content = msg;
             this.date = msg.getSentDate();
 
             this.messages.add(new com.uha.mo.model.Message(this.from, this.account.getMailAddress(), this.subject, this.content, this.date));

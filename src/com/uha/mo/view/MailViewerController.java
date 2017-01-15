@@ -108,7 +108,7 @@ public class MailViewerController implements Initializable {
         this.from.setText(message.getFrom());
         this.to.setText(message.getTo());
         this.cc.setText("");
-        this.content.getEngine().loadContent(message.getContent());
+        //this.content.getEngine().loadContent(message.getContent());
     }
 
     public void getSendMailBox(){
