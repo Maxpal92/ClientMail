@@ -28,6 +28,10 @@ public class sendMailController implements Initializable {
     @FXML
     private TextField subjectTextField;
 
+    private Account account;
+    private String subject;
+    private String sendTo;
+
     public TextField getSubjectTextField() {
         return subjectTextField;
     }
@@ -35,10 +39,6 @@ public class sendMailController implements Initializable {
     public void setSubjectTextField(String cc) {
         subjectTextField.setText(cc);
     }
-
-    private Account account;
-    private String subject;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -51,6 +51,14 @@ public class sendMailController implements Initializable {
 
     public String getSubject(){
         return subject;
+    }
+
+    public void setSendTo(String sendTo){
+        this.sendTo = sendTo;
+    }
+
+    public void setSendToTextField (String to){
+        this.sendToTextField.setText(to);
     }
 
     public Account getAccount() {
