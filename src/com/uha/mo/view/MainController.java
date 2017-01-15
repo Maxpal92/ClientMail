@@ -2,19 +2,12 @@ package com.uha.mo.view;
 
 import com.uha.mo.App;
 import com.uha.mo.model.Model;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Side;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ContextMenuEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -31,6 +24,8 @@ public class MainController implements Initializable {
     private ImageView exitButton;
     @FXML
     private ImageView settingsButton;
+    @FXML
+    private ImageView refreshButton;
     @FXML
     private HBox accounts;
     @FXML
@@ -67,9 +62,7 @@ public class MainController implements Initializable {
         /********************************* EXIT BUTTON *********************************/
 
         exitButton.setOnMouseClicked(event -> System.exit(0));
-
         exitButton.setOnMouseEntered(event -> exitButton.setImage(new Image("images/delete_hover.png")));
-
         exitButton.setOnMouseExited(event -> exitButton.setImage(new Image("images/delete.png")));
 
         /********************************* SETTINGS BUTTON *********************************/
@@ -81,10 +74,17 @@ public class MainController implements Initializable {
                 e.printStackTrace();
             }
         });
-
         settingsButton.setOnMouseEntered(event -> settingsButton.setImage(new Image("images/settings_hover.png")));
-
         settingsButton.setOnMouseExited(event -> settingsButton.setImage(new Image("images/settings.png")));
+
+        /********************************* REFRESH BUTTON *********************************/
+
+        refreshButton.setOnMouseClicked(event -> {
+            app.refreshModel();
+            app.initRootLayout();
+        });
+        refreshButton.setOnMouseEntered(event -> refreshButton.setImage(new Image("images/refresh_hover.png")));
+        refreshButton.setOnMouseExited(event -> refreshButton.setImage(new Image("images/refresh.png")));
     }
 
     public void setStage(Stage stage) {

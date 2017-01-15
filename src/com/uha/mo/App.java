@@ -3,7 +3,7 @@ package com.uha.mo;
 import com.uha.mo.model.*;
 import com.uha.mo.model.Message;
 import com.uha.mo.utils.AsyncTask;
-import com.uha.mo.utils.ModelManager;
+import com.uha.mo.model.ModelManager;
 import com.uha.mo.view.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

@@ -1,9 +1,5 @@
-package com.uha.mo.utils;
+package com.uha.mo.model;
 
-import com.uha.mo.model.Account;
-import com.uha.mo.model.CustomAccount;
-import com.uha.mo.model.GmailAccount;
-import com.uha.mo.model.YahooAccount;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

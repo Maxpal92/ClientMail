@@ -1,32 +1,16 @@
 package com.uha.mo.view;
 
-import com.uha.mo.App;
-import com.uha.mo.model.GmailAccount;
 import com.uha.mo.model.YahooAccount;
 import com.uha.mo.utils.AsyncTask;
-import com.uha.mo.utils.ModelManager;
+import com.uha.mo.model.ModelManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 import javax.mail.Session;
 import javax.mail.Store;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;

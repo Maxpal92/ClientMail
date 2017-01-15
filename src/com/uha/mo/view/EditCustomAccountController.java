@@ -2,28 +2,16 @@ package com.uha.mo.view;
 
 import com.uha.mo.model.CustomAccount;
 import com.uha.mo.model.GmailAccount;
-import com.uha.mo.model.YahooAccount;
 import com.uha.mo.utils.AsyncTask;
-import com.uha.mo.utils.ModelManager;
+import com.uha.mo.model.ModelManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 import javax.mail.Session;
 import javax.mail.Store;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
@@ -111,6 +99,9 @@ public class EditCustomAccountController implements Initializable {
         getPort.setText(this.account.getGET_PROTOCOL_PORT());
 
         switch (this.account.getSyncPeriod()) {
+            case -1:
+                period.setValue("Manuellement");
+                break;
             case 900000:
                 period.setValue("Toutes les 15 minutes");
                 break;
@@ -165,6 +156,9 @@ public class EditCustomAccountController implements Initializable {
                 newAccount.setGET_PROTOCOL_PORT(getPort.getText());
 
                 switch (period.getSelectionModel().getSelectedItem()) {
+                    case "Manuellement":
+                        newAccount.setSyncPeriod(-1);
+                        break;
                     case "Toutes les 15 minutes":
                         newAccount.setSyncPeriod(900000);
                         break;

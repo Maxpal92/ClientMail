@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Accounts>
 
-<Account address="crapaud.j@yahoo.com" name="Crapaud" notifications="true" password="q6tYoy8kAKUHrOu35PeEHWwbgAqUH3CL" period="900000" type="yahoo"/>
+<Account address="crapaud.j@yahoo.com" name="Crapaud" notifications="true" password="nn88zc/qvn8psHJCXlu4uGhSWzt2a/hS" period="-1" type="yahoo"/>
 <Account address="oteniche@gmail.com" name="Toto" notifications="true" password="GgmeiQ+Lz29igD85ExCeWJ4O9R9NjSlJ" period="900000" type="gmail"/>
+
 
 
 

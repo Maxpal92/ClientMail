@@ -3,7 +3,7 @@ package com.uha.mo.view;
 import com.uha.mo.App;
 import com.uha.mo.model.CustomAccount;
 import com.uha.mo.utils.AsyncTask;
-import com.uha.mo.utils.ModelManager;
+import com.uha.mo.model.ModelManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
