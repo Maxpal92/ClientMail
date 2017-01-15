@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 /**
  * Created by maxime on 17/11/2016.
  */
-public class sendMailController implements Initializable {
+public class  sendMailController implements Initializable {
     @FXML
     private TextField sendToTextField;
     @FXML

@@ -281,6 +281,10 @@ public class ModelManager {
                                     customAccount.setGET_PROTOCOL("IMAP");
                                     customAccount.setGET_PROTOCOL_HOST(((Element)accountNode).getAttribute("getHost"));
                                     customAccount.setGET_PROTOCOL_PORT(((Element)accountNode).getAttribute("getPort"));
+                                case "POP3":
+                                    customAccount.setGET_PROTOCOL("POP3");
+                                    customAccount.setGET_PROTOCOL_HOST(((Element)accountNode).getAttribute("getHost"));
+                                    customAccount.setGET_PROTOCOL_PORT(((Element)accountNode).getAttribute("getPort"));
                             }
 
                             customAccount.setNotifications(notifications);
