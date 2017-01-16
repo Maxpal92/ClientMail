@@ -96,7 +96,7 @@ public class sendMailController implements Initializable {
                     new InternetAddress(sendToTextField.getText().toString()));
 
             // Set Subject: header field
-            message.setSubject("This is the Subject Line!");
+            message.setSubject(subjectTextField.getText());
 
             // Now set the actual message
             message.setText(mailContentTextArea.getText());
@@ -137,7 +137,7 @@ public class sendMailController implements Initializable {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(account.getMailAddress()));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sendToTextField.getText().toString()));
-            message.setSubject("Testing Subject");
+            message.setSubject(subjectTextField.getText());
             message.setText(mailContentTextArea.getText());
 
             Transport.send(message);
