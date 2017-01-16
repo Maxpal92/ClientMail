@@ -31,9 +31,9 @@ public class GmailChecker {
                 javax.mail.Message msg = inbox.getMessages()[i];
                 if(!msg.getFlags().contains(Flags.Flag.SEEN)) {
                     if(msg.getContent() instanceof String)
-                        this.messages.add(new Message(msg.getFrom()[0].toString(), account.getMailAddress(), msg.getSubject(), (String)msg.getContent(), msg.getSentDate(), msg));
+                        this.messages.add(new Message(msg.getFrom()[0].toString(), msg.getRecipients(javax.mail.Message.RecipientType.TO), msg.getRecipients(javax.mail.Message.RecipientType.CC), msg.getSubject(), (String)msg.getContent(), msg.getSentDate(), msg));
                     else
-                        this.messages.add(new Message(msg.getFrom()[0].toString(), account.getMailAddress(), msg.getSubject(), ((Multipart)msg.getContent()).getBodyPart(0).getContent().toString(), msg.getSentDate(), msg));
+                        this.messages.add(new Message(msg.getFrom()[0].toString(), msg.getRecipients(javax.mail.Message.RecipientType.TO), msg.getRecipients(javax.mail.Message.RecipientType.CC), msg.getSubject(), ((Multipart)msg.getContent()).getBodyPart(0).getContent().toString(), msg.getSentDate(), msg));
                 }
             }
 

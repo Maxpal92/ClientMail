@@ -16,6 +16,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.mail.Address;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.Part;
@@ -109,8 +110,22 @@ public class MailViewerController implements Initializable {
 
         this.subject.setText(message.getSubject());
         this.from.setText(message.getFrom());
-        this.to.setText(message.getTo());
-        this.cc.setText("");
+
+        String to = "";
+        for(int i = 0; i < message.getTo().length; i++) {
+            to +=  message.getTo()[i];
+            if(i < message.getTo().length - 1)
+                to += " , ";
+        }
+        this.to.setText(to);
+
+        String cc = "";
+        for(int i = 0; i < message.getCc().length; i++) {
+            cc +=  message.getCc()[i];
+            if(i < message.getCc().length - 1)
+                cc += " , ";
+        }
+        this.cc.setText(cc);
         this.contentViewer.getEngine().loadContent(message.getContent());
     }
 

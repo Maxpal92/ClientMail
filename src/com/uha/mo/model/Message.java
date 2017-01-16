@@ -5,6 +5,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import javax.mail.Address;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -16,20 +18,22 @@ public class Message {
     private StringProperty subject;
     private javax.mail.Message reference;
     private String content;
-    private StringProperty to;
+    private Address[] to;
     private ObjectProperty<Date> date;
+    private Address[] cc;
 
     private long id;
 
     private static long ID = 0l;
 
-    public Message(String from, String to, String subject, String content, Date date, javax.mail.Message refrence) {
+    public Message(String from, Address[] to, Address[] cc, String subject, String content, Date date, javax.mail.Message refrence) {
         this.from = new SimpleStringProperty(from);
-        this.to = new SimpleStringProperty(to);
+        this.to = to;
         this.content = content;
         this.subject = new SimpleStringProperty(subject);
         this.date = new SimpleObjectProperty<>(date);
         this.reference = refrence;
+        this.cc = cc;
 
         this.id = ID;
         ID++;
@@ -80,7 +84,17 @@ public class Message {
         return this.id;
     }
 
-    public String getTo() {
-        return this.to.get();
+    public Address[] getTo() {
+        if(cc != null)
+            return to;
+        else
+            return new Address[0];
+    }
+
+    public Address[] getCc() {
+        if(cc != null)
+            return cc;
+        else
+            return new Address[0];
     }
 }
