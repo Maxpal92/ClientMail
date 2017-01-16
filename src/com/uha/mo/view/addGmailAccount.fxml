@@ -5,60 +5,13 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="853.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uha.mo.view.NewGmailAccountController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="853.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uha.mo.view.AddGmailAccountController">
     <children>
-        <ToolBar fx:id="menuBar" nodeOrientation="RIGHT_TO_LEFT" prefWidth="0.0">
-            <items>
-                <HBox fx:id="menuBarContainer" prefHeight="20.0">
-                    <children>
-                        <HBox HBox.hgrow="ALWAYS">
-                            <children>
-                                <StackPane>
-                                    <children>
-                                        <ImageView fx:id="exitButton" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../../../images/delete.png" />
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                    <padding>
-                                        <Insets right="10.0" />
-                                    </padding>
-                                </StackPane>
-                        </children>
-                    </HBox>
-                    <HBox HBox.hgrow="NEVER" />
-                        <HBox HBox.hgrow="NEVER">
-                            <children>
-                                <StackPane>
-                                    <children>
-                                        <ImageView fx:id="backButton" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../../../images/back.png" />
-                                            </image>
-                                        </ImageView>
-                                    </children>
-                                    <padding>
-                                        <Insets right="10.0" />
-                                    </padding>
-                                </StackPane>
-                            </children>
-                        </HBox>
-                    </children>
-                </HBox>
-            </items>
-
-            <padding>
-                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </padding>
-        </ToolBar>
         <StackPane fx:id="root" alignment="TOP_LEFT" VBox.vgrow="ALWAYS">
             <VBox alignment="CENTER" spacing="20.0">
                 <children>
@@ -104,6 +57,5 @@
                 </padding>
             </VBox>
         </StackPane>
-
     </children>
 </VBox>

@@ -1,17 +1,13 @@
 package com.uha.mo.view;
 
-import com.uha.mo.App;
 import com.uha.mo.model.GmailAccount;
 import com.uha.mo.utils.AsyncTask;
 import com.uha.mo.model.ModelManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import javax.mail.Session;
 import javax.mail.Store;
@@ -20,17 +16,11 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+/**
+ * Created by othman on 23/12/2016.
+ */
+public class EditGmailAccountController implements Initializable {
 
-public class NewGmailAccountController implements Initializable {
-
-    @FXML
-    private ToolBar menuBar;
-    @FXML
-    private ImageView exitButton;
-    @FXML
-    private ImageView backButton;
-    @FXML
-    private HBox menuBarContainer;
     @FXML
     private Button valid;
     @FXML
@@ -43,11 +33,17 @@ public class NewGmailAccountController implements Initializable {
     private ImageView loading;
     @FXML
     private StackPane root;
+    @FXML
+    private TextField name;
+    @FXML
+    private ComboBox<String> period;
+    @FXML
+    private CheckBox notifications;
+    @FXML
+    private Button delete;
 
-    private Stage stage;
-    private App app;
-    private double xOffset;
-    private double yOffset;
+    private GmailAccount account;
+    private SettingsController parent;
 
     private boolean emailOK = false;
     private boolean passwordOK = false;
@@ -55,10 +51,7 @@ public class NewGmailAccountController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.menuBarContainer.prefWidthProperty().bind(this.menuBar.widthProperty().subtract(20));
-        this.root.prefWidthProperty().bind(this.menuBar.widthProperty());
         this.error_email.setVisible(false);
-        this.valid.setDisable(true);
         this.loading.setVisible(false);
 
         email.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -88,28 +81,7 @@ public class NewGmailAccountController implements Initializable {
         });
 
         valid.setOnAction(event -> onValid());
-
-        menuBar.setOnMousePressed(event -> {
-            xOffset = stage.getX() - event.getScreenX();
-            yOffset = stage.getY() - event.getScreenY();
-        });
-
-        menuBar.setOnMouseDragged(event -> {
-            stage.setX(event.getScreenX() + xOffset);
-            stage.setY(event.getScreenY() + yOffset);
-        });
-
-        /********************************* EXIT BUTTON *********************************/
-        exitButton.setOnMouseClicked(event -> System.exit(0));
-        exitButton.setOnMouseEntered(event -> exitButton.setImage(new Image("images/delete_hover.png")));
-        exitButton.setOnMouseExited(event -> exitButton.setImage(new Image("images/delete.png")));
-
-        /********************************* BACK BUTTON *********************************/
-        backButton.setOnMouseClicked(event -> {
-            app.initRootLayout();
-        });
-        backButton.setOnMouseEntered(event -> backButton.setImage(new Image("images/back_hover.png")));
-        backButton.setOnMouseExited(event -> backButton.setImage(new Image("images/back.png")));
+        delete.setOnAction(event -> onDelete());
     }
 
     private void checkDisableValid() {
@@ -127,15 +99,46 @@ public class NewGmailAccountController implements Initializable {
 
         this.valid.setVisible(false);
         this.loading.setVisible(true);
-        new LoginChecker().execute(email, password);
+        new EditGmailAccountController.LoginChecker().execute(email, password);
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    private void onDelete() {
+        ModelManager.getInstance().deleteAccount(this.account);
+        parent.notifyEvent("delete");
     }
 
-    public void setApp(App app) {
-        this.app = app;
+    public void setParent(SettingsController parent) {
+        this.parent = parent;
+    }
+
+    public void setAccount(GmailAccount account) {
+        this.account = account;
+
+        name.setText(this.account.getName());
+        email.setText(this.account.getMailAddress());
+        password.setText(this.account.getPassword());
+        switch (this.account.getSyncPeriod()) {
+            case -1:
+                period.setValue("Manuellement");
+                break;
+            case 900000:
+                period.setValue("Toutes les 15 minutes");
+                break;
+            case 1800000:
+                period.setValue("Toutes les 30 minutes");
+                break;
+            case 3600000:
+                period.setValue("Toutes les heures");
+                break;
+            case 7200000:
+                period.setValue("Toutes les 2 heures");
+                break;
+        }
+
+        if(this.account.isNotifications())
+            notifications.setSelected(true);
+        else
+            notifications.setSelected(false);
     }
 
     private class LoginChecker extends AsyncTask<String, Boolean> {
@@ -163,8 +166,32 @@ public class NewGmailAccountController implements Initializable {
             loading.setVisible(false);
 
             if(result) {
-                ModelManager.getInstance().addAccount(new GmailAccount(email.getText(), password.getText()));
-                app.initRootLayout();
+                GmailAccount newAccount = new GmailAccount(email.getText(), password.getText());
+                newAccount.setName(name.getText());
+                switch (period.getSelectionModel().getSelectedItem()) {
+                    case "Manuellement":
+                        newAccount.setSyncPeriod(-1);
+                        break;
+                    case "Toutes les 15 minutes":
+                        newAccount.setSyncPeriod(900000);
+                        break;
+                    case "Toutes les 30 minutes":
+                        newAccount.setSyncPeriod(1800000);
+                        break;
+                    case "Toutes les heures":
+                        newAccount.setSyncPeriod(3600000);
+                        break;
+                    case "Toutes les 2 heures":
+                        newAccount.setSyncPeriod(7200000);
+                        break;
+                }
+                if(notifications.isSelected())
+                    newAccount.setNotifications(true);
+                else
+                    newAccount.setNotifications(false);
+
+                ModelManager.getInstance().editAccount(account, newAccount);
+                parent.notifyEvent("edited");
             }
             else {
                 try {

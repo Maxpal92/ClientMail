@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="root" alignment="TOP_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="910.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.uha.mo.view.EditCustomAccountController">
+    <ScrollPane hbarPolicy="NEVER" style="-fx-background-color: white;">
+        <content>
+            <VBox style="-fx-background-color: white;">
+                <children>
+                    <VBox alignment="CENTER" spacing="20.0" StackPane.alignment="CENTER">
+                        <children>
+                            <VBox prefHeight="200.0" spacing="20.0" VBox.vgrow="NEVER">
+                                <children>
+                                    <HBox alignment="CENTER_LEFT">
+                                        <VBox.margin>
+                                            <Insets bottom="20.0" top="50.0" />
+                                        </VBox.margin>
+                                        <children>
+                                            <Label text="Paramètres du compte">
+                                                <font>
+                                                    <Font size="36.0" />
+                                                </font>
+                                            </Label>
+                                            <HBox HBox.hgrow="ALWAYS" />
+                                            <Button fx:id="delete" mnemonicParsing="false" style="-fx-base: #e74c3c;" text="Supprimer le compte" wrapText="true">
+                                                <font>
+                                                    <Font size="18.0" />
+                                                </font>
+                                                <padding>
+                                                    <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                                                </padding>
+                                            </Button>
+                                        </children>
+                                    </HBox>
+                                    <VBox spacing="10.0">
+                                        <children>
+                                            <Label text="Nom du compte">
+                                                <font>
+                                                    <Font size="18.0" />
+                                                </font>
+                                            </Label>
+                                            <TextField fx:id="name" />
+                                        </children>
+                                        <VBox.margin>
+                                            <Insets bottom="20.0" />
+                                        </VBox.margin>
+                                    </VBox>
+                                    <VBox spacing="10.0">
+                                        <children>
+                                            <Label text="Adresse mail">
+                                                <font>
+                                                    <Font size="18.0" />
+                                                </font>
+                                            </Label>
+                                            <TextField fx:id="email" prefHeight="31.0" prefWidth="300.0" />
+                                        </children>
+                                    </VBox>
+                                    <VBox spacing="10.0">
+                                        <children>
+                                            <Label text="Mot de passe">
+                                                <font>
+                                                    <Font size="18.0" />
+                                                </font>
+                                            </Label>
+                                            <PasswordField fx:id="password" prefWidth="300.0" />
+                                        </children>
+                                    </VBox>
+                                    <HBox spacing="20.0">
+                                        <children>
+                                            <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                                <children>
+                                                    <Label text="Serveur SMTP">
+                                          <font>
+                                             <Font size="18.0" />
+                                          </font></Label>
+                                                    <TextField fx:id="smtpHost" />
+                                                </children>
+                                            </VBox>
+                                            <VBox spacing="10.0">
+                                                <children>
+                                                    <Label text="Port SMTP">
+                                          <font>
+                                             <Font size="18.0" />
+                                          </font></Label>
+                                                    <TextField fx:id="smtpPort" prefWidth="100.0" />
+                                                </children>
+                                            </VBox>
+                                        </children>
+                                    </HBox>
+                                    <HBox spacing="20.0">
+                                        <children>
+                                            <VBox spacing="20.0" HBox.hgrow="ALWAYS">
+                                                <children>
+                                                    <VBox layoutX="10.0" layoutY="10.0" spacing="10.0">
+                                                        <children>
+                                                            <Label text="Serveur de récupération d'e-mails">
+                                                <font>
+                                                   <Font size="18.0" />
+                                                </font></Label>
+                                                            <TextField fx:id="getHost" prefWidth="300.0" />
+                                                        </children>
+                                                    </VBox>
+                                                </children>
+                                            </VBox>
+                                            <VBox prefHeight="62.0" prefWidth="156.0" spacing="10.0">
+                                                <children>
+                                                    <Label prefWidth="232.0" text="Protocole">
+                                          <font>
+                                             <Font size="18.0" />
+                                          </font></Label>
+                                                    <ComboBox fx:id="getProtocol" prefHeight="31.0" prefWidth="241.0">
+                                                        <items>
+                                                            <FXCollections fx:factory="observableArrayList">
+                                                                <String fx:value="IMAP" />
+                                                                <String fx:value="POP3" />
+                                                            </FXCollections>
+                                                        </items>
+                                                        <value>
+                                                            <String fx:value="IMAP" />
+                                                        </value>
+                                                    </ComboBox>
+                                                </children>
+                                            </VBox>
+                                            <VBox spacing="10.0">
+                                                <children>
+                                                    <Label text="Port">
+                                          <font>
+                                             <Font size="18.0" />
+                                          </font></Label>
+                                                    <TextField fx:id="getPort" prefWidth="100.0" />
+                                                </children>
+                                            </VBox>
+                                        </children>
+                                    </HBox>
+                                </children>
+                                <VBox.margin>
+                                    <Insets bottom="30.0" top="30.0" />
+                                </VBox.margin>
+                            </VBox>
+                        </children>
+                        <padding>
+                            <Insets left="100.0" right="100.0" />
+                        </padding>
+                    </VBox>
+                    <VBox spacing="20.0">
+                        <children>
+                            <Label text="Paramètres de synchronisation">
+                                <font>
+                                    <Font size="36.0" />
+                                </font>
+                                <VBox.margin>
+                                    <Insets bottom="20.0" top="50.0" />
+                                </VBox.margin>
+                            </Label>
+                            <VBox spacing="10.0">
+                                <children>
+                                    <VBox spacing="10.0">
+                                        <children>
+                                            <Label text="Synchroniser les messages électroniques ">
+                                                <font>
+                                                    <Font size="18.0" />
+                                                </font>
+                                            </Label>
+                                            <ComboBox fx:id="period" prefWidth="712.0">
+                                                <items>
+                                                    <FXCollections fx:factory="observableArrayList">
+                                                        <String fx:value="Toutes les 15 minutes" />
+                                                        <String fx:value="Toutes les 30 minutes" />
+                                                        <String fx:value="Toutes les heures" />
+                                                        <String fx:value="Toutes les 2 heures" />
+                                                        <String fx:value="Manuellement" />
+                                                    </FXCollections>
+                                                </items>
+                                            </ComboBox>
+                                        </children>
+                                    </VBox>
+                                </children>
+                                <VBox.margin>
+                                    <Insets bottom="20.0" />
+                                </VBox.margin>
+                            </VBox>
+                            <VBox>
+                                <children>
+                                    <CheckBox fx:id="notifications" mnemonicParsing="false" text="Activer les notifications pour ce compte">
+                                        <font>
+                                            <Font size="18.0" />
+                                        </font>
+                                    </CheckBox>
+                                </children>
+                            </VBox>
+                        </children>
+                        <padding>
+                            <Insets left="100.0" right="100.0" />
+                        </padding>
+                    </VBox>
+                    <StackPane>
+                        <children>
+                            <Button fx:id="valid" mnemonicParsing="false" prefHeight="31.0" prefWidth="245.0" text="Valider" />
+                            <ImageView fx:id="loading" fitHeight="150.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                <image>
+                                    <Image url="@../../../../images/loading.gif" />
+                                </image>
+                            </ImageView>
+                        </children>
+                        <VBox.margin>
+                            <Insets top="30.0" />
+                        </VBox.margin>
+                    </StackPane>
+                </children>
+            </VBox>
+        </content>
+    </ScrollPane>
+</StackPane>

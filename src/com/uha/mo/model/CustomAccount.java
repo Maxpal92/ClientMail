@@ -6,8 +6,10 @@ public class CustomAccount extends Account {
     private String SMTP_HOST;
     private String SMTP_PORT;
 
-    private String IMAP_HOST;
-    private String IMAP_PORT;
+    private String GET_PROTOCOL ;
+    private String GET_PROTOCOL_HOST;
+    private String GET_PROTOCOL_PORT ;
+
 
     public CustomAccount(String mailAddress, String password) {
         this.setMailAddress(mailAddress);
@@ -20,9 +22,12 @@ public class CustomAccount extends Account {
     public String getSMTP_PORT() { return SMTP_PORT; }
     public void setSMTP_PORT(String SMTP_PORT) { this.SMTP_PORT = SMTP_PORT; }
 
-    public String getIMAP_HOST() { return IMAP_HOST; }
-    public void setIMAP_HOST(String IMAP_HOST) { this.IMAP_HOST = IMAP_HOST; }
+    public String getGET_PROTOCOL() { return this.GET_PROTOCOL; }
+    public void setGET_PROTOCOL(String protocol) { this.GET_PROTOCOL = protocol; }
 
-    public String getIMAP_PORT() { return IMAP_PORT; }
-    public void setIMAP_PORT(String IMAP_PORT) { this.IMAP_PORT = IMAP_PORT; }
+    public String getGET_PROTOCOL_HOST() { return this.GET_PROTOCOL_HOST; }
+    public void setGET_PROTOCOL_HOST(String host) { this.GET_PROTOCOL_HOST = host; }
+
+    public String getGET_PROTOCOL_PORT() { return this.GET_PROTOCOL_PORT; }
+    public void setGET_PROTOCOL_PORT(String port) { this.GET_PROTOCOL_PORT = port; }
 }

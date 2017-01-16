@@ -1,17 +1,16 @@
 package com.uha.mo.view;
 
-import com.uha.mo.App;
 import com.uha.mo.model.GmailAccount;
 import com.uha.mo.utils.AsyncTask;
 import com.uha.mo.model.ModelManager;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import javax.mail.Session;
 import javax.mail.Store;
@@ -20,17 +19,11 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+/**
+ * Created by othman on 20/12/2016.
+ */
+public class AddGmailAccountController implements Initializable {
 
-public class NewGmailAccountController implements Initializable {
-
-    @FXML
-    private ToolBar menuBar;
-    @FXML
-    private ImageView exitButton;
-    @FXML
-    private ImageView backButton;
-    @FXML
-    private HBox menuBarContainer;
     @FXML
     private Button valid;
     @FXML
@@ -44,10 +37,7 @@ public class NewGmailAccountController implements Initializable {
     @FXML
     private StackPane root;
 
-    private Stage stage;
-    private App app;
-    private double xOffset;
-    private double yOffset;
+    private SettingsController parent;
 
     private boolean emailOK = false;
     private boolean passwordOK = false;
@@ -55,8 +45,6 @@ public class NewGmailAccountController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        this.menuBarContainer.prefWidthProperty().bind(this.menuBar.widthProperty().subtract(20));
-        this.root.prefWidthProperty().bind(this.menuBar.widthProperty());
         this.error_email.setVisible(false);
         this.valid.setDisable(true);
         this.loading.setVisible(false);
@@ -88,28 +76,6 @@ public class NewGmailAccountController implements Initializable {
         });
 
         valid.setOnAction(event -> onValid());
-
-        menuBar.setOnMousePressed(event -> {
-            xOffset = stage.getX() - event.getScreenX();
-            yOffset = stage.getY() - event.getScreenY();
-        });
-
-        menuBar.setOnMouseDragged(event -> {
-            stage.setX(event.getScreenX() + xOffset);
-            stage.setY(event.getScreenY() + yOffset);
-        });
-
-        /********************************* EXIT BUTTON *********************************/
-        exitButton.setOnMouseClicked(event -> System.exit(0));
-        exitButton.setOnMouseEntered(event -> exitButton.setImage(new Image("images/delete_hover.png")));
-        exitButton.setOnMouseExited(event -> exitButton.setImage(new Image("images/delete.png")));
-
-        /********************************* BACK BUTTON *********************************/
-        backButton.setOnMouseClicked(event -> {
-            app.initRootLayout();
-        });
-        backButton.setOnMouseEntered(event -> backButton.setImage(new Image("images/back_hover.png")));
-        backButton.setOnMouseExited(event -> backButton.setImage(new Image("images/back.png")));
     }
 
     private void checkDisableValid() {
@@ -127,15 +93,11 @@ public class NewGmailAccountController implements Initializable {
 
         this.valid.setVisible(false);
         this.loading.setVisible(true);
-        new LoginChecker().execute(email, password);
+        new AddGmailAccountController.LoginChecker().execute(email, password);
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public void setApp(App app) {
-        this.app = app;
+    public void setParent(SettingsController parent) {
+        this.parent = parent;
     }
 
     private class LoginChecker extends AsyncTask<String, Boolean> {
@@ -164,7 +126,7 @@ public class NewGmailAccountController implements Initializable {
 
             if(result) {
                 ModelManager.getInstance().addAccount(new GmailAccount(email.getText(), password.getText()));
-                app.initRootLayout();
+                parent.notifyEvent("added");
             }
             else {
                 try {

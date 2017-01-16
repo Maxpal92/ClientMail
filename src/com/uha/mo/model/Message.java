@@ -14,7 +14,8 @@ public class Message {
 
     private StringProperty from;
     private StringProperty subject;
-    private StringProperty content;
+    private javax.mail.Message reference;
+    private String content;
     private StringProperty to;
     private ObjectProperty<Date> date;
 
@@ -22,12 +23,13 @@ public class Message {
 
     private static long ID = 0l;
 
-    public Message(String from, String to, String subject, String content, Date date) {
+    public Message(String from, String to, String subject, String content, Date date, javax.mail.Message refrence) {
         this.from = new SimpleStringProperty(from);
         this.to = new SimpleStringProperty(to);
-        this.content = new SimpleStringProperty(content);
+        this.content = content;
         this.subject = new SimpleStringProperty(subject);
         this.date = new SimpleObjectProperty<>(date);
+        this.reference = refrence;
 
         this.id = ID;
         ID++;
@@ -54,13 +56,14 @@ public class Message {
     }
 
     public String getContent() {
-        return content.get();
-    }
-    public StringProperty contentProperty() {
         return content;
     }
     public void setContent(String content) {
-        this.content.set(content);
+        this.content = content;
+    }
+
+    public javax.mail.Message getReference() {
+        return reference;
     }
 
     public Date getDate() {

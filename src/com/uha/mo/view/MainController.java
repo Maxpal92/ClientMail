@@ -1,17 +1,18 @@
 package com.uha.mo.view;
 
-import javafx.event.EventHandler;
+import com.uha.mo.App;
+import com.uha.mo.model.Model;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -24,6 +25,8 @@ public class MainController implements Initializable {
     @FXML
     private ImageView settingsButton;
     @FXML
+    private ImageView refreshButton;
+    @FXML
     private HBox accounts;
     @FXML
     private ScrollPane scrollPane;
@@ -31,6 +34,7 @@ public class MainController implements Initializable {
     private VBox fenetre;
 
     private Stage stage;
+    private App app;
     private double xOffset;
     private double yOffset;
 
@@ -58,36 +62,52 @@ public class MainController implements Initializable {
         /********************************* EXIT BUTTON *********************************/
 
         exitButton.setOnMouseClicked(event -> System.exit(0));
-
         exitButton.setOnMouseEntered(event -> exitButton.setImage(new Image("images/delete_hover.png")));
-
         exitButton.setOnMouseExited(event -> exitButton.setImage(new Image("images/delete.png")));
 
         /********************************* SETTINGS BUTTON *********************************/
 
         settingsButton.setOnMouseClicked(event -> {
-            //TODO
+            try {
+                app.setScene("settings");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
-
         settingsButton.setOnMouseEntered(event -> settingsButton.setImage(new Image("images/settings_hover.png")));
-
         settingsButton.setOnMouseExited(event -> settingsButton.setImage(new Image("images/settings.png")));
+
+        /********************************* REFRESH BUTTON *********************************/
+
+        refreshButton.setOnMouseClicked(event -> {
+            app.refreshModel();
+            app.initRootLayout();
+        });
+        refreshButton.setOnMouseEntered(event -> refreshButton.setImage(new Image("images/refresh_hover.png")));
+        refreshButton.setOnMouseExited(event -> refreshButton.setImage(new Image("images/refresh.png")));
     }
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    public void setApp(App app) {
+        this.app = app;
+    }
+
     public HBox getAccounts() {
         return this.accounts;
     }
 
-    public ScrollPane getScrollPane() {
-        return this.scrollPane;
-    }
-
     public VBox getRoot() {
         return this.fenetre;
+    }
+
+    public void setModel(Model model) {
+        if(model.getAccounts().size() == 1)
+            this.fenetre.setPrefWidth(640*model.getAccounts().size()+2);
+        else
+            this.fenetre.setPrefWidth(640*2+2);
     }
 }
 
