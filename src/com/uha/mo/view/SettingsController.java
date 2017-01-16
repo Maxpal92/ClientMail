@@ -85,7 +85,7 @@ public class SettingsController implements Initializable {
         });
 
         /********************************* EXIT BUTTON *********************************/
-        exitButton.setOnMouseClicked(event -> System.exit(0));
+        exitButton.setOnMouseClicked(event -> stage.hide());
         exitButton.setOnMouseEntered(event -> exitButton.setImage(new Image("images/delete_hover.png")));
         exitButton.setOnMouseExited(event -> exitButton.setImage(new Image("images/delete.png")));
 
@@ -237,7 +237,9 @@ public class SettingsController implements Initializable {
     }
 
     public void notifyEvent() {
+        app.stopCheck();
         app.refreshModel();
+        app.startCheck();
         setUpMenu();
     }
 

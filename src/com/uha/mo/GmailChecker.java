@@ -25,7 +25,7 @@ public class GmailChecker {
             store.connect(GmailAccount.IMAP_HOST, account.getMailAddress(), account.getPassword());
 
             Folder inbox = store.getFolder("INBOX");
-            inbox.open(Folder.READ_WRITE);
+            inbox.open(Folder.READ_ONLY);
 
             for(int i = inbox.getMessages().length - 1; i >= 0; i--) {
                 javax.mail.Message msg = inbox.getMessages()[i];

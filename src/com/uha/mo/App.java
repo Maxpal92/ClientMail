@@ -1,9 +1,7 @@
 package com.uha.mo;
 
 import com.uha.mo.model.*;
-import com.uha.mo.model.Message;
 import com.uha.mo.utils.AsyncTask;
-import com.uha.mo.model.ModelManager;
 import com.uha.mo.view.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,11 +16,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import javax.mail.*;
+import javax.mail.Flags;
+import javax.mail.Folder;
+import javax.mail.MessagingException;
+import javax.mail.Store;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Properties;
 
 public class App extends Application {
 
@@ -31,6 +31,7 @@ public class App extends Application {
 
     private Model model;
     private App referenceForAccountChecker = this;
+    private ArrayList<Thread> checkers = new ArrayList<>();
 
     @Override
     public void start(Stage primaryStage) {
@@ -111,6 +112,8 @@ public class App extends Application {
     private void addAccountsLayout() {
 
         try {
+            stopCheck();
+
             for(Account a : model.getAccounts()) {
 
                 FXMLLoader accountLoader = new FXMLLoader(getClass().getResource("view/account.fxml"));
@@ -121,14 +124,38 @@ public class App extends Application {
 
                 accountController.setTitle(a.nameProperty());
                 accountController.setParent(this.rootController.getAccounts());
-
                 accountController.setAccount(a);
-
                 a.setController(accountController);
             }
 
+            startCheck();
+
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void stopCheck() {
+        for(Thread thread : this.checkers) {
+            thread.interrupt();
+            thread = null;
+        }
+        this.checkers.clear();
+    }
+
+    public void startCheck() {
+
+        for (Account a : model.getAccounts()) {
+            if(a.getSyncPeriod() != -1 && a.isNotifications()) {
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new Checker(primaryStage, a);
+                    }
+                });
+                this.checkers.add(thread);
+                thread.start();
+            }
         }
     }
 
@@ -190,10 +217,7 @@ public class App extends Application {
         for(Account account : this.model.getAccounts()) {
             if(account.getMessages().contains(account.getMailById(id))) {
                 if(account instanceof GmailAccount) {
-                    Properties props = new Properties();
-                    props.setProperty("mail.store.protocol", "imaps");
                     try {
-                        Session session = Session.getInstance(props, null);
                         Store store = account.getMailById(id).getReference().getFolder().getStore();
                         store.connect(GmailAccount.IMAP_HOST, account.getMailAddress(), account.getPassword());
 
@@ -267,6 +291,7 @@ public class App extends Application {
                 break;
 
             case "settings":
+
                 FXMLLoader settingsLoader = new FXMLLoader((getClass().getResource("view/settings.fxml")));
                 BorderPane settingsRoot = settingsLoader.load();
                 ((SettingsController) settingsLoader.getController()).setStage(this.primaryStage);

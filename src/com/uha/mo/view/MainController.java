@@ -2,8 +2,14 @@ package com.uha.mo.view;
 
 import com.uha.mo.App;
 import com.uha.mo.model.Model;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
@@ -38,8 +44,6 @@ public class MainController implements Initializable {
     private double xOffset;
     private double yOffset;
 
-    private double x;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -61,7 +65,7 @@ public class MainController implements Initializable {
 
         /********************************* EXIT BUTTON *********************************/
 
-        exitButton.setOnMouseClicked(event -> System.exit(0));
+        exitButton.setOnMouseClicked(event -> stage.getScene().getRoot().setVisible(false));
         exitButton.setOnMouseEntered(event -> exitButton.setImage(new Image("images/delete_hover.png")));
         exitButton.setOnMouseExited(event -> exitButton.setImage(new Image("images/delete.png")));
 
