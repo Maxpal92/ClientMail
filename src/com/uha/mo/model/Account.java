@@ -5,8 +5,6 @@ import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import javax.mail.Message;
-
 public abstract class Account {
 
     private StringProperty mailAddress = new SimpleStringProperty();
