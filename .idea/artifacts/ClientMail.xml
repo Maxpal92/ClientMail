@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ClientMail">
+    <output-path>$PROJECT_DIR$/out/artifacts/ClientMail</output-path>
+    <root id="archive" name="TestFX.jar">
+      <element id="module-output" name="ClientMail" />
+      <element id="extracted-dir" path="$USER_HOME$/Desktop/jasypt-1.9.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/javamail-1.4.7/mail.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

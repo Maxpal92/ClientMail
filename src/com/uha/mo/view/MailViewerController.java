@@ -16,10 +16,6 @@ import javafx.scene.web.WebView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.mail.Address;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Part;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -54,6 +50,7 @@ public class MailViewerController implements Initializable {
 
     private MailController mailController;
     private Account account;
+    private Message message;
 
     public MailViewerController() {
     }
@@ -91,11 +88,13 @@ public class MailViewerController implements Initializable {
 
         replyAll.setOnMouseEntered(event -> replyAll.setImage(new Image("images/replyAll_hover.png")));
         replyAll.setOnMouseExited(event -> replyAll.setImage(new Image("images/replyAll.png")));
+        replyAll.setOnMouseClicked(event -> replyAll());
 
         /********************************* REPLY BUTTON *********************************/
 
         forward.setOnMouseEntered(event -> forward.setImage(new Image("images/forward_hover.png")));
         forward.setOnMouseExited(event -> forward.setImage(new Image("images/forward.png")));
+        forward.setOnMouseClicked(event -> forward());
     }
 
     public void setStage(MailStage stage) {
@@ -108,6 +107,7 @@ public class MailViewerController implements Initializable {
 
     public void setMail(Message message) {
 
+        this.message = message;
         this.subject.setText(message.getSubject());
         this.from.setText(message.getFrom());
 
@@ -129,10 +129,65 @@ public class MailViewerController implements Initializable {
         this.contentViewer.getEngine().loadContent(message.getContent());
     }
 
+    private void forward() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("sendMail.fxml"));
+            VBox vBox = loader.load();
+            Stage sendMailStage = new Stage();
+            sendMailStage.setTitle("Transférer");
+            sendMailStage.initModality(Modality.WINDOW_MODAL);
+
+            Scene scene = new Scene(vBox);
+            sendMailStage.setScene(scene);
+
+            SendMailController controller = loader.getController();
+            controller.setStage(sendMailStage);
+            controller.setAccount(this.account);
+            controller.setSubject(this.subject.getText().toString());
+            controller.setSubjectTextField("Fwd : " + this.subject.getText().toString());
+            controller.setMailContentTextArea(message.getContent());
+
+            sendMailStage.showAndWait();
+
+        }
+        catch(IOException var7){
+            var7.printStackTrace();
+        }
+    }
+
+    private void replyAll() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("sendMail.fxml"));
+            VBox vBox = loader.load();
+            Stage sendMailStage = new Stage();
+            sendMailStage.setTitle("Répondre à tous");
+            sendMailStage.initModality(Modality.WINDOW_MODAL);
+
+            Scene scene = new Scene(vBox);
+            sendMailStage.setScene(scene);
+
+            SendMailController controller = loader.getController();
+            controller.setStage(sendMailStage);
+            controller.setAccount(this.account);
+            controller.setSubject(this.subject.getText().toString());
+            controller.setSubjectTextField("Re : " + this.subject.getText().toString());
+
+            controller.setSendTo(this.from.getText());
+            controller.setSendCc(message.getCc());
+            controller.setSendToTextField(this.from.getText());
+
+            sendMailStage.showAndWait();
+
+        }
+        catch(IOException var7){
+            var7.printStackTrace();
+        }
+    }
+
     public void getSendMailBox(){
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("../view/sendMail.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("sendMail.fxml"));
             VBox vBox = loader.load();
             Stage sendMailStage = new Stage();
             sendMailStage.setTitle("Mail Sender");
@@ -141,7 +196,7 @@ public class MailViewerController implements Initializable {
             Scene scene = new Scene(vBox);
             sendMailStage.setScene(scene);
 
-            sendMailController controller = loader.getController();
+            SendMailController controller = loader.getController();
             controller.setStage(sendMailStage);
             controller.setAccount(this.account);
             controller.setSubject(this.subject.getText().toString());

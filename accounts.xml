@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Accounts>
+<Account address="crapaud.j@yahoo.com" name="Compte Yahoo" notifications="true" password="ahG5r7QTy+Xfo3+7jWKLtZDmRAxkMIF4" period="900000" type="yahoo"/>
+<Account address="oteniche@gmail.com" name="Compte Gmail" notifications="true" password="f/rGFKO6rjnmF3Amj7fKxMmrkMNwK587" period="900000" type="gmail"/>
+</Accounts>

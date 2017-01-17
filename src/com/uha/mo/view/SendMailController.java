@@ -21,13 +21,15 @@ import java.util.ResourceBundle;
 /**
  * Created by maxime on 17/11/2016.
  */
-public class  sendMailController implements Initializable {
+public class SendMailController implements Initializable {
     @FXML
     private TextField sendToTextField;
     @FXML
     private TextArea mailContentTextArea;
     @FXML
     private TextField subjectTextField;
+    @FXML
+    private TextField ccTextField;
 
     private Account account;
     private String subject;
@@ -42,8 +44,8 @@ public class  sendMailController implements Initializable {
         return subjectTextField;
     }
 
-    public void setSubjectTextField(String cc) {
-        subjectTextField.setText(cc);
+    public void setSubjectTextField(String subject) {
+        subjectTextField.setText(subject);
     }
 
     @Override
@@ -65,6 +67,10 @@ public class  sendMailController implements Initializable {
 
     public void setSendToTextField (String to){
         this.sendToTextField.setText(to);
+    }
+
+    public void setMailContentTextArea(String content) {
+        this.mailContentTextArea.setText(content);
     }
 
     public Account getAccount() {
@@ -113,7 +119,6 @@ public class  sendMailController implements Initializable {
 
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
-            System.out.println("Sent message successfully....");
         }catch (MessagingException mex) {
             mex.printStackTrace();
         }
@@ -128,21 +133,23 @@ public class  sendMailController implements Initializable {
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
 
-        System.out.println("Debut du debug");
-
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
                         return new PasswordAuthentication(account.getMailAddress(),account.getPassword());
                     }
                 });
-        System.out.println(account.getMailAddress() + account.getPassword());
 
         try {
 
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(account.getMailAddress()));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sendToTextField.getText().toString()));
+
+            String[] ccs = ccTextField.getText().split(" , ");
+            for(int i = 0; i < ccs.length; i++) {
+                message.addRecipient(Message.RecipientType.CC, InternetAddress.parse(ccs[i])[0]);
+            }
             message.setSubject(subjectTextField.getText());
             message.setText(mailContentTextArea.getText());
 
@@ -163,5 +170,15 @@ public class  sendMailController implements Initializable {
             sendMailFromYahoo();
         }
         this.stage.close();
+    }
+
+    public void setSendCc(Address[] sendCc) {
+        String res = "";
+        for(int i = 0; i < sendCc.length; i++) {
+            res +=  sendCc[i];
+            if(i < sendCc.length - 1)
+                res += " , ";
+        }
+        this.ccTextField.setText(res);
     }
 }

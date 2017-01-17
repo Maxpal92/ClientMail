@@ -38,7 +38,7 @@ public class ModelManager {
         try {
             if(account instanceof GmailAccount) {
 
-                Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
+                Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("accounts.xml"));
                 Node root = xml.getDocumentElement();
 
                 Element newAccount = xml.createElement("Account");
@@ -56,11 +56,11 @@ public class ModelManager {
                 tr.setOutputProperty(OutputKeys.METHOD, "xml");
                 tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
                 tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-                tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("src/com/uha/mo/model/accounts.xml")));
+                tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("accounts.xml")));
             }
             else if(account instanceof YahooAccount) {
 
-                Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
+                Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("accounts.xml"));
                 Node root = xml.getDocumentElement();
 
                 Element newAccount = xml.createElement("Account");
@@ -78,10 +78,10 @@ public class ModelManager {
                 tr.setOutputProperty(OutputKeys.METHOD, "xml");
                 tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
                 tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-                tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("src/com/uha/mo/model/accounts.xml")));
+                tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("accounts.xml")));
             }
             else if(account instanceof CustomAccount) {
-                Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
+                Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("accounts.xml"));
                 Node rootXML = xml.getDocumentElement();
 
                 Element newAccount = xml.createElement("Account");
@@ -106,7 +106,7 @@ public class ModelManager {
                 tr.setOutputProperty(OutputKeys.METHOD, "xml");
                 tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
                 tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-                tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("src/com/uha/mo/model/accounts.xml")));
+                tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("accounts.xml")));
             }
 
         } catch (TransformerException e) {
@@ -124,7 +124,7 @@ public class ModelManager {
 
     public void deleteAccount(Account account) {
         try {
-            Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
+            Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("accounts.xml"));
             Node root = xml.getDocumentElement();
 
             for (int i = 0; i < root.getChildNodes().getLength(); i++) {
@@ -138,7 +138,7 @@ public class ModelManager {
                         tr.setOutputProperty(OutputKeys.METHOD, "xml");
                         tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
                         tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-                        tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("src/com/uha/mo/model/accounts.xml")));
+                        tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("accounts.xml")));
                     }
                 }
             }
@@ -158,7 +158,7 @@ public class ModelManager {
 
     public void editAccount(Account oldAccount, Account newAccount) {
         try {
-            Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
+            Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("accounts.xml"));
             Node rootXML = xml.getDocumentElement();
 
             if(oldAccount instanceof GmailAccount || oldAccount instanceof YahooAccount) {
@@ -205,7 +205,7 @@ public class ModelManager {
             tr.setOutputProperty(OutputKeys.METHOD, "xml");
             tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
             tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-            tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("src/com/uha/mo/model/accounts.xml")));
+            tr.transform(new DOMSource(xml), new StreamResult(new FileOutputStream("accounts.xml")));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -227,7 +227,7 @@ public class ModelManager {
         try {
             ArrayList<Account> result = new ArrayList<>();
 
-            Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("src/com/uha/mo/model/accounts.xml"));
+            Document xml = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("accounts.xml"));
             Node root = xml.getDocumentElement();
 
             for(int i = 0; i < root.getChildNodes().getLength(); i++) {
